@@ -3,12 +3,12 @@
 # 2024 EDG rtemis.org
 
 #' Create an `a3` object
-#' 
+#'
 #' Creates an `a3` object given amino acid sequence and annotations.
-#' 
-#' @details 
+#'
+#' @details
 #' We choose to keep NULL elements as empty lists in JSON, since we want users to be
-#' able to easily add annotations, whether programmaticaly, using a web app, or 
+#' able to easily add annotations, whether programmaticaly, using a web app, or
 #' manually.
 #'
 #' @param seq Character: Amino acid sequence.
@@ -28,24 +28,31 @@
 #' @param description Character: Description of the data / experiment.
 #' @param reference Character: Link to reference (journal publication, preprint, etc.)
 #'
-#' @return `a3` object
-#' 
 #' @author EDG
+#' @return `a3` object
 #' @export
 
 a3 <- function(
-    seq, site = NULL, region = NULL, ptm = NULL, clv = NULL,
-    variant = NULL, uniprotid = NULL, description = NULL, reference = NULL) {
+  seq,
+  site = NULL,
+  region = NULL,
+  ptm = NULL,
+  clv = NULL,
+  variant = NULL,
+  uniprotid = NULL,
+  description = NULL,
+  reference = NULL
+) {
   # Check types
-  check_inherits(seq, "character")
-  check_inherits(site, "list")
-  check_inherits(region, "list")
-  check_inherits(ptm, "list")
-  check_inherits(clv, "list")
-  check_inherits(variant, "list")
-  check_inherits(uniprotid, "character")
-  check_inherits(description, "character")
-  check_inherits(reference, "character")
+  inherits_check(seq, "character")
+  inherits_check(site, "list")
+  inherits_check(region, "list")
+  inherits_check(ptm, "list")
+  inherits_check(clv, "list")
+  inherits_check(variant, "list")
+  inherits_check(uniprotid, "character")
+  inherits_check(description, "character")
+  inherits_check(reference, "character")
 
   # Convert to JSON
   a3 <- list(
@@ -62,7 +69,7 @@ a3 <- function(
     Reference = reference
   )
   class(a3) <- c("a3", "list")
-  a3
+  return(a3)
 } # /rtemisbio::a3
 
 
@@ -71,14 +78,17 @@ a3 <- function(
 #' @method print a3
 #' @param x `a3` object.
 #' @param ... Not used.
-#' 
-#' @return `a3` object, invisibly.
 #'
 #' @author EDG
 #' @export
 
 print.a3 <- function(x, head.n = 10, ...) {
-  cat(".:", orange("a3", bold = TRUE), " object (Amino Acid Annotation)\n", sep = "")
+  cat(
+    ".:",
+    orange("a3", bold = TRUE),
+    " object (Amino Acid Annotation)\n",
+    sep = ""
+  )
   if (!is.null(x$Description)) {
     cat("  Description:", hilite(x$Description), "\n")
   }
@@ -91,31 +101,69 @@ print.a3 <- function(x, head.n = 10, ...) {
   n_clv_annotations <- length(x$Annotations$Cleavage_site)
   n_variant_annotations <- length(x$Annotations$Variant)
   # Head of sequence
-  cat("     Sequence: ", bold(head(x$Sequence, head.n)), "...", " (length = ", length(x$Sequence), ")\n", sep = "")
+  cat(
+    "     Sequence: ",
+    bold(head(x$Sequence, head.n)),
+    "...",
+    " (length = ",
+    length(x$Sequence),
+    ")\n",
+    sep = ""
+  )
   # Names of annotations
   cat("  Annotations:\n")
-  if (is.null(site_annotations) && is.null(region_annotations) && is.null(ptm_annotations) && n_clv_annotations == 0 && n_variant_annotations == 0) {
+  if (
+    is.null(site_annotations) &&
+      is.null(region_annotations) &&
+      is.null(ptm_annotations) &&
+      n_clv_annotations == 0 &&
+      n_variant_annotations == 0
+  ) {
     cat(italic("             None\n"))
   }
   if (length(site_annotations) > 0) {
-    cat("          ", rtemis:::gray(italic("Site:")), paste(green(site_annotations), collapse = ", "), "\n")
+    cat(
+      "          ",
+      rtemis:::gray(italic("Site:")),
+      paste(green(site_annotations), collapse = ", "),
+      "\n"
+    )
   }
   if (length(region_annotations) > 0) {
-    cat("        ", rtemis:::gray(italic("Region:")), paste(green(region_annotations), collapse = ", "), "\n")
+    cat(
+      "        ",
+      rtemis:::gray(italic("Region:")),
+      paste(green(region_annotations), collapse = ", "),
+      "\n"
+    )
   }
   if (length(ptm_annotations) > 0) {
-    cat("           ", rtemis:::gray(italic("PTM:")), paste(green(ptm_annotations), collapse = ", "), "\n")
+    cat(
+      "           ",
+      rtemis:::gray(italic("PTM:")),
+      paste(green(ptm_annotations), collapse = ", "),
+      "\n"
+    )
   }
   if (n_clv_annotations > 0) {
-    cat(" ", rtemis:::gray(italic("Cleavage site:")), bold(n_clv_annotations), "annotations.\n")
+    cat(
+      " ",
+      rtemis:::gray(italic("Cleavage site:")),
+      bold(n_clv_annotations),
+      "annotations.\n"
+    )
   }
   if (n_variant_annotations > 0) {
-    cat("      ", rtemis:::gray(italic("Variants:")), bold(n_variant_annotations), "variant annotations.\n")
+    cat(
+      "      ",
+      rtemis:::gray(italic("Variants:")),
+      bold(n_variant_annotations),
+      "variant annotations.\n"
+    )
   }
   if (!is.null(x$Reference)) {
     cat("    Reference:", hilite(x$Reference), "\n")
   }
-  invisible(x)
 } # /rtemisbio::print.a3
 
 
@@ -134,13 +182,13 @@ as.a3 <- function(x) {
 #' as.a3
 #'
 #' @param x Object to convert to `a3`.
-#' 
+#'
 #' @author EDG
 #' @return `a3` object.
 #' @export
 
 as.a3.default <- function(x) {
-  check_inherits(x, "list")
+  inherits_check(x, "list")
   as.a3.list(x)
 } # /rtemisbio::as.a3
 
@@ -157,17 +205,17 @@ as.a3.default <- function(x) {
 
 as.a3.list <- function(x) {
   # Check types
-  check_inherits(x, "list")
-  check_inherits(x$Sequence, "character")
-  check_inherits(x$Annotations, "list")
-  check_inherits(x$Annotations$Site, "list")
-  check_inherits(x$Annotations$Region, "list")
-  check_inherits(x$Annotations$PTM, "list")
-  check_inherits(x$Annotations$Cleavage_site, "list")
-  check_inherits(x$Annotations$Variant, "list")
-  check_inherits(x$UniprotID, "character")
-  check_inherits(x$Description, "character")
-  check_inherits(x$Reference, "character")
+  inherits_check(x, "list")
+  inherits_check(x$Sequence, "character")
+  inherits_check(x$Annotations, "list")
+  inherits_check(x$Annotations$Site, "list")
+  inherits_check(x$Annotations$Region, "list")
+  inherits_check(x$Annotations$PTM, "list")
+  inherits_check(x$Annotations$Cleavage_site, "list")
+  inherits_check(x$Annotations$Variant, "list")
+  inherits_check(x$UniprotID, "character")
+  inherits_check(x$Description, "character")
+  inherits_check(x$Reference, "character")
 
   # Create `a3` object
   a3 <- a3(
@@ -181,20 +229,20 @@ as.a3.list <- function(x) {
     description = x$Description,
     reference = x$Reference
   )
-  a3
+  return(a3)
 } # /rtemisbio::as.a3.list
 
 
 #' Plot method for `a3` object
 #'
 #' @param x `a3` object.
-#' @param ... Additional arguments passed to [rtemis::draw_protein].
+#' @param ... Additional arguments passed to [rtemis::dplot3_protein].
 #'
 #' @author EDG
 #' @export
 
 plot.a3 <- function(x, ...) {
-  draw_protein(x, ...)
+  dplot3_protein(x, ...)
 } # /rtemisbio::plot.a3
 
 
@@ -217,10 +265,10 @@ plot.a3 <- function(x, ...) {
 #' }
 int2range <- function(x) {
   # Check that x consists of consecutive integers from loweest to highest
-  isTRUE(all.equal(x, seq(min(x), max(x)))) || stop("x must be consecutive integers from lowest to highest.")
+  isTRUE(all.equal(x, seq(min(x), max(x)))) ||
+    stop("x must be consecutive integers from lowest to highest.")
 
   paste0(x[1], ":", x[length(x)])
-
 } # /rtemisbio::int2range
 
 
@@ -253,7 +301,10 @@ summary.a3 <- function(object, ...) {
     cat(length(object$Annotations$PTM), "PTM annotations.\n")
   }
   if (length(object$Annotations$Cleavage_site) > 0) {
-    cat(length(object$Annotations$Cleavage_site), "cleavage site annotations.\n")
+    cat(
+      length(object$Annotations$Cleavage_site),
+      "cleavage site annotations.\n"
+    )
   }
   if (length(object$Annotations$Variant) > 0) {
     cat(length(object$Annotations$Variant), "variant annotations.\n")
