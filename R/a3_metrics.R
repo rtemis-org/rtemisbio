@@ -44,7 +44,7 @@ dice_coefficient <- function(x, y) {
 #' Overlap Coefficient
 #'
 #' Overlap Coefficient a.k.a. Szymkiewicz-Simpson coefficient.
-#' 
+#'
 #' @param x Character vector. Will be coerced to character.
 #' @param y Character vector. Will be coerced to character.
 #'
@@ -92,21 +92,12 @@ cosine_similarity <- function(x, y, sequence) {
 #' @author EDG
 #' @export
 
-pmi <- function(x, y) {
-  x <- unique(as.character(x))
-  y <- unique(as.character(y))
-  n_x_and_y <- length(intersect(x, y))
-  n_x <- length(x)
-  n_y <- length(y)
-  n_x_and_y / (n_x * n_y)
-} # /rtemisbio::pmi
-
 pmi <- function(x, y, data) {
   px <- sum(x) / length(data)
   py <- sum(y) / length(data)
   pxy <- sum(x * y) / length(data)
   log2(pxy / (px * py))
-}
+} # /rtemisbio::pmi
 
 #' Pairwise PTM similarity
 #'
@@ -124,7 +115,8 @@ pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
   sim <- matrix(NA, nrow = n, ncol = n)
   for (i in seq_along(x)) {
     for (j in seq_along(x)) {
-      sim[i, j] <- switch(metric,
+      sim[i, j] <- switch(
+        metric,
         "jaccard" = jaccard_index(x[[i]], x[[j]]),
         "dice" = dice_coefficient(x[[i]], x[[j]]),
         "overlap" = overlap_coefficient(x[[i]], x[[j]]),
