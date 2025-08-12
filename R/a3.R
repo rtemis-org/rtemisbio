@@ -44,15 +44,15 @@ a3 <- function(
   reference = NULL
 ) {
   # Check types
-  inherits_check(seq, "character")
-  inherits_check(site, "list")
-  inherits_check(region, "list")
-  inherits_check(ptm, "list")
-  inherits_check(clv, "list")
-  inherits_check(variant, "list")
-  inherits_check(uniprotid, "character")
-  inherits_check(description, "character")
-  inherits_check(reference, "character")
+  check_inherits(seq, "character")
+  check_inherits(site, "list")
+  check_inherits(region, "list")
+  check_inherits(ptm, "list")
+  check_inherits(clv, "list")
+  check_inherits(variant, "list")
+  check_inherits(uniprotid, "character")
+  check_inherits(description, "character")
+  check_inherits(reference, "character")
 
   # Convert to JSON
   a3 <- list(
@@ -188,7 +188,7 @@ as.a3 <- function(x) {
 #' @export
 
 as.a3.default <- function(x) {
-  inherits_check(x, "list")
+  check_inherits(x, "list")
   as.a3.list(x)
 } # /rtemisbio::as.a3
 
@@ -205,17 +205,17 @@ as.a3.default <- function(x) {
 
 as.a3.list <- function(x) {
   # Check types
-  inherits_check(x, "list")
-  inherits_check(x$Sequence, "character")
-  inherits_check(x$Annotations, "list")
-  inherits_check(x$Annotations$Site, "list")
-  inherits_check(x$Annotations$Region, "list")
-  inherits_check(x$Annotations$PTM, "list")
-  inherits_check(x$Annotations$Cleavage_site, "list")
-  inherits_check(x$Annotations$Variant, "list")
-  inherits_check(x$UniprotID, "character")
-  inherits_check(x$Description, "character")
-  inherits_check(x$Reference, "character")
+  check_inherits(x, "list")
+  check_inherits(x$Sequence, "character")
+  check_inherits(x$Annotations, "list")
+  check_inherits(x$Annotations$Site, "list")
+  check_inherits(x$Annotations$Region, "list")
+  check_inherits(x$Annotations$PTM, "list")
+  check_inherits(x$Annotations$Cleavage_site, "list")
+  check_inherits(x$Annotations$Variant, "list")
+  check_inherits(x$UniprotID, "character")
+  check_inherits(x$Description, "character")
+  check_inherits(x$Reference, "character")
 
   # Create `a3` object
   a3 <- a3(
