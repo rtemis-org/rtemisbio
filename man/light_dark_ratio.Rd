@@ -8,7 +8,7 @@ light_dark_ratio(
   x,
   groupname = "Lights",
   fn = mean,
-  backend = getOption("rt.backend", "data.table"),
+  backend = getOption("rtemis_backend", "data.table"),
   ...
 )
 }

@@ -82,7 +82,7 @@ a3 <- function(
 #' @author EDG
 #' @export
 
-print.a3 <- function(x, head.n = 10, ...) {
+print.a3 <- function(x, head_n = 10, ...) {
   cat(
     ".:",
     orange("a3", bold = TRUE),
@@ -90,10 +90,10 @@ print.a3 <- function(x, head.n = 10, ...) {
     sep = ""
   )
   if (!is.null(x$Description)) {
-    cat("  Description:", hilite(x$Description), "\n")
+    cat("  Description:", highlight(x$Description), "\n")
   }
   if (!is.null(x$UniprotID)) {
-    cat("   Uniprot ID:", hilite(x$UniprotID), "\n")
+    cat("   Uniprot ID:", highlight(x$UniprotID), "\n")
   }
   site_annotations <- names(x$Annotations$Site)
   region_annotations <- names(x$Annotations$Region)
@@ -103,7 +103,7 @@ print.a3 <- function(x, head.n = 10, ...) {
   # Head of sequence
   cat(
     "     Sequence: ",
-    bold(head(x$Sequence, head.n)),
+    bold(utils::head(x$Sequence, head_n)),
     "...",
     " (length = ",
     length(x$Sequence),
@@ -124,7 +124,7 @@ print.a3 <- function(x, head.n = 10, ...) {
   if (length(site_annotations) > 0) {
     cat(
       "          ",
-      rtemis:::gray(italic("Site:")),
+      gray(italic("Site:")),
       paste(green(site_annotations), collapse = ", "),
       "\n"
     )
@@ -132,7 +132,7 @@ print.a3 <- function(x, head.n = 10, ...) {
   if (length(region_annotations) > 0) {
     cat(
       "        ",
-      rtemis:::gray(italic("Region:")),
+      gray(italic("Region:")),
       paste(green(region_annotations), collapse = ", "),
       "\n"
     )
@@ -140,7 +140,7 @@ print.a3 <- function(x, head.n = 10, ...) {
   if (length(ptm_annotations) > 0) {
     cat(
       "           ",
-      rtemis:::gray(italic("PTM:")),
+      gray(italic("PTM:")),
       paste(green(ptm_annotations), collapse = ", "),
       "\n"
     )
@@ -148,7 +148,7 @@ print.a3 <- function(x, head.n = 10, ...) {
   if (n_clv_annotations > 0) {
     cat(
       " ",
-      rtemis:::gray(italic("Cleavage site:")),
+      gray(italic("Cleavage site:")),
       bold(n_clv_annotations),
       "annotations.\n"
     )
@@ -156,13 +156,13 @@ print.a3 <- function(x, head.n = 10, ...) {
   if (n_variant_annotations > 0) {
     cat(
       "      ",
-      rtemis:::gray(italic("Variants:")),
+      gray(italic("Variants:")),
       bold(n_variant_annotations),
       "variant annotations.\n"
     )
   }
   if (!is.null(x$Reference)) {
-    cat("    Reference:", hilite(x$Reference), "\n")
+    cat("    Reference:", highlight(x$Reference), "\n")
   }
 } # /rtemisbio::print.a3
 
@@ -266,7 +266,7 @@ plot.a3 <- function(x, ...) {
 int2range <- function(x) {
   # Check that x consists of consecutive integers from loweest to highest
   isTRUE(all.equal(x, seq(min(x), max(x)))) ||
-    stop("x must be consecutive integers from lowest to highest.")
+    cli::cli_abort("x must be consecutive integers from lowest to highest.")
 
   paste0(x[1], ":", x[length(x)])
 } # /rtemisbio::int2range

@@ -8,4 +8,4 @@ __dev
 ^altdoc$
 ^_quarto$
 ^\.github$
-^\.code-workspace$
+^.*\.code-workspace$

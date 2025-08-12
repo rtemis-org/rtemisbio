@@ -3,25 +3,25 @@
 # 2024 EDG rtemis.org
 
 #' Get the sequence of a gene
-#' 
+#'
 #' @param gene Character: Gene name.
 #' @param organism Character: Organism name.
 #' @param biomart Character: Biomart name.
 #' @param host Character: Host address.
-#' 
+#'
 #' @return data.frame with columns "gene", "ensembl_transcript_id" and "sequence".
-#' 
+#'
 #' @author EDG
 #' @export
 
 gene2sequence <- function(
-    gene,
-    organism = "hsapiens",
-    biomart = "ensembl",
-    host = "https://www.ensembl.org",
-    seq_type = "coding",
-    verbosity = 1) {
-  
+  gene,
+  organism = "hsapiens",
+  biomart = "ensembl",
+  host = "https://www.ensembl.org",
+  seq_type = "coding",
+  verbosity = 1
+) {
   # Check dependencies ----
   check_dependencies("biomaRt")
 
@@ -29,7 +29,7 @@ gene2sequence <- function(
   stopifnot(is.character(gene))
 
   if (verbosity > 0) {
-    msg20("Getting sequence for gene ", hilite(gene), "...")
+    msg20("Getting sequence for gene ", highlight(gene), "...")
   }
 
   # Mart ----
@@ -50,8 +50,11 @@ gene2sequence <- function(
 
   if (verbosity > 0) {
     msg20(
-      "Found ", bold(nrow(transcripts)), 
-      " transcripts for gene ", hilite(gene), "."
+      "Found ",
+      bold(nrow(transcripts)),
+      " transcripts for gene ",
+      highlight(gene),
+      "."
     )
   }
 
@@ -69,7 +72,10 @@ gene2sequence <- function(
     # Count number of sequences returned that are not "Sequence unavailable"
     nretrieved <- sum(sequence$coding != "Sequence unavailable")
     msg20(
-      "Database returned sequences for ", bold(nretrieved), "/", nrow(sequence),
+      "Database returned sequences for ",
+      bold(nretrieved),
+      "/",
+      nrow(sequence),
       " transcripts."
     )
   }

@@ -4,7 +4,7 @@
 \alias{print.a3}
 \title{Print method for \code{a3} object}
 \usage{
-\method{print}{a3}(x, head.n = 10, ...)
+\method{print}{a3}(x, head_n = 10, ...)
 }
 \arguments{
 \item{x}{\code{a3} object.}

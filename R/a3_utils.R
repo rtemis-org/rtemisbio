@@ -16,7 +16,7 @@ get_alphafold <- function(uniprotid) {
   headers <- c(
     "accept" = "application/json"
   )
-  response <- GET(url, add_headers(.headers = headers))
+  response <- httr::GET(url, httr::add_headers(.headers = headers))
   content <- content(response, as = "text", encoding = "UTF-8")
   jsonlite::fromJSON(content)
 } # /rtemisbio::get_alphafold

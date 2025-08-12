@@ -10,16 +10,18 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @return List with three elements: Identifier, Annotation, and Sequence.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{
 #' mapt <- uniprot_get("Q9UMX9")
 #' }
-uniprot_get <- function(accession,
-                        baseURL = "https://rest.uniprot.org/uniprotkb",
-                        verbosity = 1) {
+uniprot_get <- function(
+  accession,
+  baseURL = "https://rest.uniprot.org/uniprotkb",
+  verbosity = 1
+) {
   # Check types
   check_inherits(accession, "character")
 
@@ -28,7 +30,7 @@ uniprot_get <- function(accession,
   Annotation <- attr(dat[[1]], "Annot")
   Identifier <- gsub(" .*", "", Annotation)
   if (verbosity > 0) {
-    msg2("Got:", hilite(Annotation))
+    msg2("Got:", highlight(Annotation))
   }
 
   list(

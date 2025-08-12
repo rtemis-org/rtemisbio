@@ -8,7 +8,7 @@
   x,
   groupname,
   fn = mean,
-  backend = getOption("rt.backend", "base"),
+  backend = getOption("rtemis_backend", "base"),
   ...
 )
 }

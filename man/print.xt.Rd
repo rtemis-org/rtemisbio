@@ -4,7 +4,7 @@
 \alias{print.xt}
 \title{Print method for \code{xt} object}
 \usage{
-\method{print}{xt}(x, head.n = 10, ...)
+\method{print}{xt}(x, head_n = 10, ...)
 }
 \arguments{
 \item{x}{\code{xt} object.}

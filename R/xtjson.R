@@ -6,7 +6,7 @@
 #'
 #' @param x `xt` object, as created by [toxt] or [as.xt].
 #' @param filepath Character: Path to save JSON file.
-#' 
+#'
 #' @return Nothing. Writes JSON file.
 #'
 #' @author EDG
@@ -25,9 +25,13 @@ write.xtjson <- function(x, filepath, overwrite = FALSE) {
 
   # Check file ----
   if (file.exists(filepath) && !overwrite) {
-    stop(
-      "File ", filepath, " exists.\033[0m",
-      italic("\n  Set", hilite("`overwrite = TRUE`"), "if you wish to overwrite.")
+    cli::cli_abort(
+      "File ",
+      filepath,
+      " exists.\033[0m",
+      "\n  Set",
+      highlight("`overwrite = TRUE`"),
+      "if you wish to overwrite."
     )
   }
 
@@ -38,7 +42,6 @@ write.xtjson <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-
 } # /rtemisbio::write.xtjson
 
 
@@ -52,12 +55,12 @@ write.xtjson <- function(x, filepath, overwrite = FALSE) {
 #' when they are read back in, they are converted back to factors using [factor]. This means that
 #' the levels will be set alphabetically. If needed, reorder them after reading in the JSON file
 #' using [factor].
-#' 
+#'
 #' @param filepath Character: Path to JSON file.
 #' @param verbosity Integer: if greater than 0, print messages.
 #'
 #' @return `xt` object.
-#' 
+#'
 #' @author EDG
 #' @export
 
@@ -73,7 +76,7 @@ read.xtjson <- function(filepath, verbosity = 0L) {
 
   # Check file ----
   if (!file.exists(filepath)) {
-    stop("File", filepath, "does not exist.")
+    cli::cli_abort("File", filepath, "does not exist.")
   }
 
   # Read from file

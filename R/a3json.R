@@ -6,7 +6,7 @@
 #'
 #' @param x `a3` object, as created by `as.a3()`.
 #' @param filepath Character: Path to save JSON file.
-#' 
+#'
 #' @return Nothing. Writes JSON file.
 #'
 #' @author EDG
@@ -25,9 +25,13 @@ write.a3json <- function(x, filepath, overwrite = FALSE) {
 
   # Check file ----
   if (file.exists(filepath) && !overwrite) {
-    stop(
-      "File ", filepath, " exists.\033[0m",
-      italic("\n  Set", hilite("`overwrite = TRUE`"), "if you wish to overwrite.")
+    cli::cli_abort(
+      "File ",
+      filepath,
+      " exists.\033[0m",
+      "\n  Set",
+      highlight("`overwrite = TRUE`"),
+      "if you wish to overwrite."
     )
   }
 
@@ -38,7 +42,6 @@ write.a3json <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-
 } # /rtemisbio::write.a3json
 
 
@@ -52,7 +55,7 @@ write.a3json <- function(x, filepath, overwrite = FALSE) {
 #' @param verbosity Integer: if greater than 0, print messages.
 #'
 #' @return `a3` object.
-#' 
+#'
 #' @author EDG
 #' @export
 
@@ -68,7 +71,7 @@ read.a3json <- function(filepath, verbosity = 0L) {
 
   # Check file ----
   if (!file.exists(filepath)) {
-    stop("File", filepath, "does not exist.")
+    cli::cli_abort("File", filepath, "does not exist.")
   }
 
   # Read from file
@@ -76,7 +79,8 @@ read.a3json <- function(filepath, verbosity = 0L) {
     path = filepath,
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
-  ) |> as.a3()
+  ) |>
+    as.a3()
 
   if (verbosity > 0) {
     cat("Read", filepath, ":\n", sep = "")
