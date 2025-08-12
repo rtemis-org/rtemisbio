@@ -229,20 +229,20 @@ as.a3.list <- function(x) {
     description = x$Description,
     reference = x$Reference
   )
-  return(a3)
+  a3
 } # /rtemisbio::as.a3.list
 
 
 #' Plot method for `a3` object
 #'
 #' @param x `a3` object.
-#' @param ... Additional arguments passed to [rtemis::dplot3_protein].
+#' @param ... Additional arguments passed to [rtemis::draw_protein].
 #'
 #' @author EDG
 #' @export
 
 plot.a3 <- function(x, ...) {
-  dplot3_protein(x, ...)
+  draw_protein(x, ...)
 } # /rtemisbio::plot.a3
 
 

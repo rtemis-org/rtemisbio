@@ -11,7 +11,7 @@ Bioinformatics utilities
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://egenn.github.io/rtemisbio/}
+  \item \url{https://rtemisbio.rtemis.org}
 }
 
 }
