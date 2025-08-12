@@ -1,12 +1,12 @@
 Package: rtemisbio
 Title: rtemis Bio-informatics
 Version: 0.3.0
-Date: 2025-06-03
+Date: 2025-08-11
 Authors@R: 
     person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"),
            email = "gennatas@gmail.com",
            comment = c(ORCID = "0000-0001-9280-3609"))
-Description: Bio-informatics utilities
+Description: Bio-informatics utilities extending rtemis package.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
