@@ -4,12 +4,14 @@
 \alias{pmi}
 \title{Pointwise Mutual Information}
 \usage{
-pmi(x, y, data)
+pmi(x, y, sequence)
 }
 \arguments{
-\item{x}{Character vector. Will be coerced to character.}
+\item{x}{Character vector of PTM sites. Will be coerced to character.}
 
-\item{y}{Character vector. Will be coerced to character.}
+\item{y}{Character vector of PTM sites. Will be coerced to character.}
+
+\item{sequence}{Character vector representing the protein sequence, used to determine the total number of possible sites.}
 }
 \value{
 Numeric: Pointwise Mutual Information.

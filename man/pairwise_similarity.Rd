@@ -10,6 +10,8 @@ pairwise_similarity(x, metric = "jaccard", sequence = NULL)
 \item{x}{List of PTM annotations}
 
 \item{metric}{Character: "jaccard", "dice", "overlap", "cosine", "pmi"}
+
+\item{sequence}{Character vector representing the protein sequence. Required for 'cosine' and 'pmi' metrics.}
 }
 \value{
 Matrix of pairwise similarity scores.
