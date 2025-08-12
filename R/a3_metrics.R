@@ -84,31 +84,52 @@ cosine_similarity <- function(x, y, sequence) {
 
 #' Pointwise Mutual Information
 #'
-#' @param x Character vector. Will be coerced to character.
-#' @param y Character vector. Will be coerced to character.
+#' @param x Character vector of PTM sites. Will be coerced to character.
+#' @param y Character vector of PTM sites. Will be coerced to character.
+#' @param sequence Character vector representing the protein sequence, used to determine the total number of possible sites.
 #'
 #' @return Numeric: Pointwise Mutual Information.
 #'
 #' @author EDG
 #' @export
+pmi <- function(x, y, sequence) {
+  if (is.null(sequence)) {
+    stop("The 'sequence' argument is required for PMI calculation.")
+  }
+  L <- length(sequence)
+  if (L == 0) {
+    stop("The sequence cannot be empty.")
+  }
 
-pmi <- function(x, y, data) {
-  px <- sum(x) / length(data)
-  py <- sum(y) / length(data)
-  pxy <- sum(x * y) / length(data)
-  log2(pxy / (px * py))
+  x <- unique(as.character(x))
+  y <- unique(as.character(y))
+  n_x <- length(x)
+  n_y <- length(y)
+
+  if (n_x == 0 || n_y == 0) {
+    return(0)
+  }
+
+  n_x_and_y <- length(intersect(x, y))
+
+  if (n_x_and_y == 0) {
+    return(-Inf)
+  }
+
+  log2((n_x_and_y * L) / (n_x * n_y))
 } # /rtemisbio::pmi
+
 
 #' Pairwise PTM similarity
 #'
 #' @param x List of PTM annotations
 #' @param metric Character: "jaccard", "dice", "overlap", "cosine", "pmi"
+#' @param sequence Character vector representing the protein sequence. Required for 'cosine' and 'pmi' metrics.
 #'
 #' @return Matrix of pairwise similarity scores.
 #'
 #' @author EDG
 #' @export
-
 pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
   # Apply similarity metric on all pairs of elements in x
   n <- length(x)
@@ -121,7 +142,7 @@ pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
         "dice" = dice_coefficient(x[[i]], x[[j]]),
         "overlap" = overlap_coefficient(x[[i]], x[[j]]),
         "cosine" = cosine_similarity(x[[i]], x[[j]], sequence),
-        "pmi" = pmi(x[[i]], x[[j]], x)
+        "pmi" = pmi(x[[i]], x[[j]], sequence)
       )
     }
   }
