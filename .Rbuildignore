@@ -7,3 +7,4 @@
 ^altdoc$
 ^_quarto$
 ^\.github$
+^\.code-workspace$
