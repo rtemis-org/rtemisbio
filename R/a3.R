@@ -1,17 +1,86 @@
-# a3.R
+# A3.R
 # ::rtemisbio::
-# 2024 EDG rtemis.org
+# 2024- EDG rtemis.org
 
-#' Create an `a3` object
+#' @title A3 Class
 #'
-#' Creates an `a3` object given amino acid sequence and annotations.
+#' @description
+#' The annotated amino acid (A3) class is designed to store and manage
+#' amino acid sequences and associated annotations.
+#'
+#' @field sequence Character: Amino acid sequence using single-letter codes.
+#' @field annotations List: Named list including site, region, PTM, cleavage_site, and variant information.
+#' @field uniprotid Character: Uniprot ID associated with the sequence, if available.
+#' @field description Character: Description of the data / experiment.
+#' @field reference Character: Link to reference (journal publication, preprint, etc.)
+#'
+#' @author EDG
+#'
+#' @noRd
+A3 <- new_class(
+  "A3",
+  properties = list(
+    sequence = class_character,
+    annotations = class_list,
+    uniprotid = class_character,
+    description = class_character,
+    reference = class_character
+  ),
+  constructor = function(
+    sequence,
+    site = NULL,
+    region = NULL,
+    ptm = NULL,
+    cleavage_site = NULL,
+    variant = NULL,
+    uniprotid = NULL,
+    description = NULL,
+    reference = NULL
+  ) {
+    check_inherits(site, "list")
+    check_inherits(region, "list")
+    check_inherits(ptm, "list")
+    check_inherits(cleavage_site, "list")
+    check_inherits(variant, "list")
+    annotations <- list(
+      site = site,
+      region = region,
+      ptm = ptm,
+      cleavage_site = cleavage_site,
+      variant = variant
+    )
+    new_object(
+      S7_object(),
+      sequence = sequence,
+      annotations = annotations,
+      uniprotid = uniprotid,
+      description = description,
+      reference = reference
+    )
+  }
+) # /rtemisbio::A3
+
+# `[` method for A3 ----
+method(`[`, A3) <- function(x, names) {
+  lapply(names, function(name) prop(x, name))
+} # A3.[
+
+# `[[` method for A3 ----
+method(`[[`, A3) <- function(x, name) {
+  prop(x, name)
+} # A3.[[
+
+# create_A3 ----
+#' Create an `A3` object
+#'
+#' Creates an `A3` object given amino acid sequence and annotations.
 #'
 #' @details
 #' We choose to keep NULL elements as empty lists in JSON, since we want users to be
 #' able to easily add annotations, whether programmaticaly, using a web app, or
 #' manually.
 #'
-#' @param seq Character: Amino acid sequence.
+#' @param sequence Character: Amino acid sequence.
 #' @param site Named list of vectors of integer indices of sites, e.g.
 #' `list("N-terminal repeat" = c(46, 47, 52), "Microtubule binding domain" = c(244, 245, 246))`
 #' @param region Named list of integer indices,
@@ -20,93 +89,90 @@
 #' `start:end`, e.g. `list(Phosphodegron = c("46:51", "149:154"), KXGS = c("259:262", "290:293"))`
 #' @param ptm Named list of vectors with indices of post-translational modifications, e.g.
 #' `list("Phosphorylation" = c(17, 18, 29, 30), "Acetylation" = c(148, 150, 163))`
-#' @param clv Named list of cleavage sites, e.g.
+#' @param cleavage_site Named list of cleavage sites, e.g.
 #' `list(CTSL = c(54, 244, 319), CTSD = c(340, 391, 426))`
 #' @param variant List of lists with variant information. Each list must contain a
-#' `Position` element
+#' `position` element.
 #' @param uniprotid Character: Uniprot ID.
 #' @param description Character: Description of the data / experiment.
 #' @param reference Character: Link to reference (journal publication, preprint, etc.)
 #'
 #' @author EDG
-#' @return `a3` object
+#' @return `A3` object
 #' @export
 
-a3 <- function(
-  seq,
+create_A3 <- function(
+  sequence,
   site = NULL,
   region = NULL,
   ptm = NULL,
-  clv = NULL,
+  cleavage_site = NULL,
   variant = NULL,
   uniprotid = NULL,
   description = NULL,
   reference = NULL
 ) {
   # Check types
-  check_inherits(seq, "character")
+  check_inherits(sequence, "character")
   check_inherits(site, "list")
   check_inherits(region, "list")
   check_inherits(ptm, "list")
-  check_inherits(clv, "list")
+  check_inherits(cleavage_site, "list")
   check_inherits(variant, "list")
   check_inherits(uniprotid, "character")
   check_inherits(description, "character")
   check_inherits(reference, "character")
 
   # Convert to JSON
-  a3 <- list(
-    Sequence = seq,
-    Annotations = list(
-      Site = site,
-      Region = region,
-      PTM = ptm,
-      Cleavage_site = clv,
-      Variant = variant
-    ),
-    UniprotID = uniprotid,
-    Description = description,
-    Reference = reference
+  A3(
+    sequence = sequence,
+    site = site,
+    region = region,
+    ptm = ptm,
+    cleavage_site = cleavage_site,
+    variant = variant,
+    uniprotid = uniprotid,
+    description = description,
+    reference = reference
   )
-  class(a3) <- c("a3", "list")
-  return(a3)
-} # /rtemisbio::a3
+} # /rtemisbio::create_A3
 
-
-#' Print method for `a3` object
+# Print A3 ----
+#' Print method for `A3` object
 #'
-#' @method print a3
-#' @param x `a3` object.
-#' @param ... Not used.
+#' @method print A3
+#' @param x `A3` object.
+#' @param head_n Integer: Number of characters to show from the sequence.
 #'
 #' @author EDG
-#' @export
-
-print.a3 <- function(x, head_n = 10, ...) {
+#'
+#' @noRd
+method(print, A3) <- function(x, head_n = 10) {
   cat(
-    ".:",
-    orange("a3", bold = TRUE),
-    " object (Amino Acid Annotation)\n",
+    gray("<"),
+    orange("A3", bold = TRUE),
+    gray(">"),
+    " (Annotation Amino Acid sequence object)\n",
     sep = ""
   )
-  if (!is.null(x$Description)) {
-    cat("  Description:", highlight(x$Description), "\n")
+  if (!is.null(x[["description"]])) {
+    cat("  Description:", highlight(x[["description"]]), "\n")
   }
-  if (!is.null(x$UniprotID)) {
-    cat("   Uniprot ID:", highlight(x$UniprotID), "\n")
+  if (!is.null(x[["uniprotid"]])) {
+    cat("   Uniprot ID:", highlight(x[["uniprotid"]]), "\n")
   }
-  site_annotations <- names(x$Annotations$Site)
-  region_annotations <- names(x$Annotations$Region)
-  ptm_annotations <- names(x$Annotations$PTM)
-  n_clv_annotations <- length(x$Annotations$Cleavage_site)
-  n_variant_annotations <- length(x$Annotations$Variant)
+  site_annotations <- names(x[["annotations"]][["site"]])
+  region_annotations <- names(x[["annotations"]][["region"]])
+  ptm_annotations <- names(x[["annotations"]][["ptm"]])
+  n_cleavage_site_annotations <- length(x[["annotations"]][["cleavage_site"]])
+  n_variant_annotations <- length(x[["annotations"]][["variant"]])
   # Head of sequence
   cat(
     "     Sequence: ",
-    bold(utils::head(x$Sequence, head_n)),
+    bold(utils::head(x[["sequence"]], head_n)),
     "...",
     " (length = ",
-    length(x$Sequence),
+    length(x[["sequence"]]),
     ")\n",
     sep = ""
   )
@@ -116,7 +182,7 @@ print.a3 <- function(x, head_n = 10, ...) {
     is.null(site_annotations) &&
       is.null(region_annotations) &&
       is.null(ptm_annotations) &&
-      n_clv_annotations == 0 &&
+      n_cleavage_site_annotations == 0 &&
       n_variant_annotations == 0
   ) {
     cat(italic("             None\n"))
@@ -145,11 +211,11 @@ print.a3 <- function(x, head_n = 10, ...) {
       "\n"
     )
   }
-  if (n_clv_annotations > 0) {
+  if (n_cleavage_site_annotations > 0) {
     cat(
       " ",
       gray(italic("Cleavage site:")),
-      bold(n_clv_annotations),
+      bold(n_cleavage_site_annotations),
       "annotations.\n"
     )
   }
@@ -161,90 +227,60 @@ print.a3 <- function(x, head_n = 10, ...) {
       "variant annotations.\n"
     )
   }
-  if (!is.null(x$Reference)) {
-    cat("    Reference:", highlight(x$Reference), "\n")
+  if (!is.null(x[["reference"]])) {
+    cat("    Reference:", highlight(x[["reference"]]), "\n")
   }
-} # /rtemisbio::print.a3
+} # /rtemisbio::print.A3
 
 
-#' as.a3
-#'
-#' @param x Object to convert to `a3`.
-#'
-#' @author EDG
-#' @return `a3` object.
-#' @export
-
-as.a3 <- function(x) {
-  UseMethod("as.a3")
-} # /rtemisbio::as.a3
-
-#' as.a3
-#'
-#' @param x Object to convert to `a3`.
-#'
-#' @author EDG
-#' @return `a3` object.
-#' @export
-
-as.a3.default <- function(x) {
-  check_inherits(x, "list")
-  as.a3.list(x)
-} # /rtemisbio::as.a3
-
-
-#' as.a3.list method
+#' as_A3
 #'
 #' @param x List: Named list with elements `Sequence`, `Annotations`, `UniprotID`.
 #' `Annotations` is a named list with possible elements `Site`, `Region`, `PTM`,
 #' `Cleavage_site`, `Variant`, `Description`, `Reference`.
 #'
 #' @author EDG
-#' @return `a3` object.
+#' @return `A3` object.
 #' @export
 
-as.a3.list <- function(x) {
-  # Check types
-  check_inherits(x, "list")
-  check_inherits(x$Sequence, "character")
-  check_inherits(x$Annotations, "list")
-  check_inherits(x$Annotations$Site, "list")
-  check_inherits(x$Annotations$Region, "list")
-  check_inherits(x$Annotations$PTM, "list")
-  check_inherits(x$Annotations$Cleavage_site, "list")
-  check_inherits(x$Annotations$Variant, "list")
-  check_inherits(x$UniprotID, "character")
-  check_inherits(x$Description, "character")
-  check_inherits(x$Reference, "character")
+as_A3 <- new_generic("as_A3", "x")
 
-  # Create `a3` object
-  a3 <- a3(
-    seq = x$Sequence,
-    site = x$Annotations$Site,
-    region = x$Annotations$Region,
-    ptm = x$Annotations$PTM,
-    clv = x$Annotations$Cleavage_site,
-    variant = x$Annotations$Variant,
-    uniprotid = x$UniprotID,
-    description = x$Description,
-    reference = x$Reference
+method(as_A3, class_list) <- function(x) {
+  create_A3(
+    sequence = x[["sequence"]],
+    site = x[["annotations"]][["site"]],
+    region = x[["annotations"]][["region"]],
+    ptm = x[["annotations"]][["ptm"]],
+    cleavage_site = x[["annotations"]][["cleavage_site"]],
+    variant = x[["annotations"]][["variant"]],
+    uniprotid = x[["uniprotid"]],
+    description = x[["description"]],
+    reference = x[["reference"]]
   )
-  a3
-} # /rtemisbio::as.a3.list
+} # /rtemisbio::as_A3.list
 
 
-#' Plot method for `a3` object
+#' Plot method for `A3` object
 #'
-#' @param x `a3` object.
+#' @param x `A3` object.
 #' @param ... Additional arguments passed to [rtemis::draw_protein].
 #'
 #' @author EDG
 #' @export
 
-plot.a3 <- function(x, ...) {
-  draw_protein(x, ...)
-} # /rtemisbio::plot.a3
+plot.A3 <- function(x, ...) {
+  draw_protein(
+    x = x[["sequence"]],
+    site = x[["annotations"]][["site"]],
+    region = x[["annotations"]][["region"]],
+    ptm = x[["annotations"]][["ptm"]],
+    cleavage_site = x[["annotations"]][["cleavage_site"]],
+    variant = x[["annotations"]][["variant"]],
+    ...
+  )
+} # /rtemisbio::plot.A3
 
+method(plot, A3) <- plot.A3
 
 #' Convert integer range to character with colon separator
 #'
@@ -272,14 +308,14 @@ int2range <- function(x) {
 } # /rtemisbio::int2range
 
 
-#' Summary method for `a3` object
+#' Summary method for `A3` object
 #'
-#' @param object `a3` object.
+#' @param object `A3` object.
 #'
 #' @author EDG
 #' @export
 
-summary.a3 <- function(object, ...) {
+summary.A3 <- function(object, ...) {
   cat("Sequence length: ", length(object$Sequence), "\n")
   if (!is.null(object$UniprotID)) {
     cat("Uniprot ID: ", object$UniprotID, "\n")
@@ -309,4 +345,4 @@ summary.a3 <- function(object, ...) {
   if (length(object$Annotations$Variant) > 0) {
     cat(length(object$Annotations$Variant), "variant annotations.\n")
   }
-} # /rtemisbio::summary.a3
+} # /rtemisbio::summary.A3

@@ -13,16 +13,17 @@ green <- getFromNamespace("green", "rtemis")
 gray <- getFromNamespace("gray", "rtemis")
 check_inherits <- getFromNamespace("check_inherits", "rtemis")
 check_dependencies <- getFromNamespace("check_dependencies", "rtemis")
+clean_int <- getFromNamespace("clean_int", "rtemis")
 
-rtemisbio.version <- utils::packageVersion("rtemisbio")
+rtemisbio_version <- utils::packageVersion("rtemisbio")
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
     paste0(
-      "  .:",
+      ".:",
       pkgname,
       " ",
-      rtemisbio.version,
+      rtemisbio_version,
       " \U1F9EC",
       " ",
       utils::sessionInfo()[[2]]
@@ -35,7 +36,7 @@ rtemisbio.version <- utils::packageVersion("rtemisbio")
 #' @description
 #' Bioinformatics utilities
 #' @name rtemisbio-package
-#' @import rtemis data.table
+#' @import rtemis data.table S7
 "_PACKAGE"
 
 NULL
