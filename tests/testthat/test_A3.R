@@ -119,10 +119,13 @@ test_that("as_A3 works", {
 })
 
 # %% plot A3 ----
-plt <- plot(x)
-test_that("plot.A3 creates plotly object", {
-  expect_s3_class(plt, "plotly")
-})
+if (requireNamespace("rtemis")) {
+  plt <- plot(x)
+  test_that("plot.A3 creates plotly object", {
+    expect_s3_class(plt, "plotly")
+  })
+}
+
 
 # %% summary A3 ----
 test_that("summary.A3 works", {
