@@ -14,6 +14,8 @@
 #' @field description Character: Description of the data / experiment.
 #' @field reference Character: Link to reference (journal publication, preprint, etc.)
 #'
+#' @return `A3` object
+#'
 #' @author EDG
 #'
 #' @noRd
@@ -97,8 +99,9 @@ method(`[[`, A3) <- function(x, name) {
 #' @param description Character: Description of the data / experiment.
 #' @param reference Character: Link to reference (journal publication, preprint, etc.)
 #'
-#' @author EDG
 #' @return `A3` object
+#'
+#' @author EDG
 #' @export
 
 create_A3 <- function(
@@ -144,6 +147,8 @@ create_A3 <- function(
 #' @param x `A3` object.
 #' @param head_n Integer: Number of characters to show from the sequence.
 #'
+#' @return Called for side effects, prints object to console
+#'
 #' @author EDG
 #'
 #' @noRd
@@ -185,12 +190,12 @@ method(print, A3) <- function(x, head_n = 10) {
       n_cleavage_site_annotations == 0 &&
       n_variant_annotations == 0
   ) {
-    cat(italic("             None\n"))
+    cat(gray("             None\n"))
   }
   if (length(site_annotations) > 0) {
     cat(
       "          ",
-      gray(italic("Site:")),
+      gray(gray("Site:")),
       paste(green(site_annotations), collapse = ", "),
       "\n"
     )
@@ -198,7 +203,7 @@ method(print, A3) <- function(x, head_n = 10) {
   if (length(region_annotations) > 0) {
     cat(
       "        ",
-      gray(italic("Region:")),
+      gray(gray("Region:")),
       paste(green(region_annotations), collapse = ", "),
       "\n"
     )
@@ -206,7 +211,7 @@ method(print, A3) <- function(x, head_n = 10) {
   if (length(ptm_annotations) > 0) {
     cat(
       "           ",
-      gray(italic("PTM:")),
+      gray(gray("PTM:")),
       paste(green(ptm_annotations), collapse = ", "),
       "\n"
     )
@@ -214,7 +219,7 @@ method(print, A3) <- function(x, head_n = 10) {
   if (n_cleavage_site_annotations > 0) {
     cat(
       " ",
-      gray(italic("Cleavage site:")),
+      gray(gray("Cleavage site:")),
       bold(n_cleavage_site_annotations),
       "annotations.\n"
     )
@@ -222,7 +227,7 @@ method(print, A3) <- function(x, head_n = 10) {
   if (n_variant_annotations > 0) {
     cat(
       "      ",
-      gray(italic("Variants:")),
+      gray(gray("Variants:")),
       bold(n_variant_annotations),
       "variant annotations.\n"
     )
@@ -239,8 +244,9 @@ method(print, A3) <- function(x, head_n = 10) {
 #' `Annotations` is a named list with possible elements `Site`, `Region`, `PTM`,
 #' `Cleavage_site`, `Variant`, `Description`, `Reference`.
 #'
-#' @author EDG
 #' @return `A3` object.
+#'
+#' @author EDG
 #' @export
 
 as_A3 <- new_generic("as_A3", "x")
@@ -265,6 +271,8 @@ method(as_A3, class_list) <- function(x) {
 #' @param x `A3` object.
 #' @param ... Additional arguments passed to [rtemis::draw_protein].
 #'
+#' @return plotly object
+#'
 #' @author EDG
 #' @export
 
@@ -282,12 +290,58 @@ plot.A3 <- function(x, ...) {
 
 method(plot, A3) <- plot.A3
 
+#' Summary method for `A3` object
+#'
+#' @param object `A3` object.
+#' @param ... Not used
+#'
+#' @return Called for side effects, prints summary to console.
+#'
+#' @author EDG
+#' @export
+
+summary.A3 <- function(object, ...) {
+  cat("Sequence length: ", length(object[["sequence"]]), "\n")
+  if (!is.null(object[["uniprotid"]])) {
+    cat("Uniprot ID: ", object[["uniprotid"]], "\n")
+  }
+  if (!is.null(object[["description"]])) {
+    cat("Description: ", object[["description"]], "\n")
+  }
+  if (!is.null(object[["reference"]])) {
+    cat("Reference: ", object[["reference"]], "\n")
+  }
+  cat("Annotations:\n")
+  if (length(object[["annotations"]][["site"]]) > 0) {
+    cat(length(object[["annotations"]][["site"]]), "site annotations.\n")
+  }
+  if (length(object[["annotations"]][["region"]]) > 0) {
+    cat(length(object[["annotations"]][["region"]]), "region annotations.\n")
+  }
+  if (length(object[["annotations"]][["ptm"]]) > 0) {
+    cat(length(object[["annotations"]][["ptm"]]), "PTM annotations.\n")
+  }
+  if (length(object[["annotations"]][["cleavage_site"]]) > 0) {
+    cat(
+      length(object[["annotations"]][["cleavage_site"]]),
+      "cleavage site annotations.\n"
+    )
+  }
+  if (length(object[["annotations"]][["variant"]]) > 0) {
+    cat(length(object[["annotations"]][["variant"]]), "variant annotations.\n")
+  }
+} # /rtemisbio::summary.A3
+
+method(summary, A3) <- summary.A3
+
+
 #' Convert integer range to character with colon separator
 #'
 #' @param x Integer vector. Must be consecutive integers from lowest to highest.
 #'
-#' @author EDG
 #' @return Character with colon separator.
+#'
+#' @author EDG
 #' @export
 #'
 #' @examples
@@ -306,43 +360,3 @@ int2range <- function(x) {
 
   paste0(x[1], ":", x[length(x)])
 } # /rtemisbio::int2range
-
-
-#' Summary method for `A3` object
-#'
-#' @param object `A3` object.
-#'
-#' @author EDG
-#' @export
-
-summary.A3 <- function(object, ...) {
-  cat("Sequence length: ", length(object$Sequence), "\n")
-  if (!is.null(object$UniprotID)) {
-    cat("Uniprot ID: ", object$UniprotID, "\n")
-  }
-  if (!is.null(object$Description)) {
-    cat("Description: ", object$Description, "\n")
-  }
-  if (!is.null(object$Reference)) {
-    cat("Reference: ", object$Reference, "\n")
-  }
-  cat("Annotations:\n")
-  if (length(object$Annotations$Site) > 0) {
-    cat(length(object$Annotations$Site), "site annotations.\n")
-  }
-  if (length(object$Annotations$Region) > 0) {
-    cat(length(object$Annotations$Region), "region annotations.\n")
-  }
-  if (length(object$Annotations$PTM) > 0) {
-    cat(length(object$Annotations$PTM), "PTM annotations.\n")
-  }
-  if (length(object$Annotations$Cleavage_site) > 0) {
-    cat(
-      length(object$Annotations$Cleavage_site),
-      "cleavage site annotations.\n"
-    )
-  }
-  if (length(object$Annotations$Variant) > 0) {
-    cat(length(object$Annotations$Variant), "variant annotations.\n")
-  }
-} # /rtemisbio::summary.A3

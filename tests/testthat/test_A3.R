@@ -6,6 +6,7 @@
 
 # %% A3() ----
 sequence <- "ARNDCEQGHILKMFPSTWYV"
+sequence <- strsplit(sequence, "")[[1]]
 variant <- list(
   list(
     id = "CA399900571rs371983180",
@@ -20,8 +21,7 @@ variant <- list(
     `genomic location` = "NC_000017.11:g.45983208G>C"
   )
 )
-# Split sequence into characters
-sequence <- strsplit(sequence, "")[[1]]
+
 x <- A3(
   sequence = sequence,
   site = list(
@@ -122,4 +122,16 @@ test_that("as_A3 works", {
 plt <- plot(x)
 test_that("plot.A3 creates plotly object", {
   expect_s3_class(plt, "plotly")
+})
+
+# %% summary A3 ----
+summary(x)
+
+# %% int2range() ----
+test_that("int2range works for consecutive integers", {
+  expect_equal(int2range(34:42), "34:42")
+})
+
+test_that("int2range fails for non-consecutive integers", {
+  expect_error(int2range(c(34:38, 40:42)))
 })

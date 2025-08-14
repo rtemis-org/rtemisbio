@@ -94,11 +94,11 @@ cosine_similarity <- function(x, y, sequence) {
 #' @export
 pmi <- function(x, y, sequence) {
   if (is.null(sequence)) {
-    stop("The 'sequence' argument is required for PMI calculation.")
+    cli::cli_abort("The sequence is required for PMI calculation.")
   }
   L <- length(sequence)
   if (L == 0) {
-    stop("The sequence cannot be empty.")
+    cli::cli_abort("The sequence cannot be empty.")
   }
 
   x <- unique(as.character(x))
