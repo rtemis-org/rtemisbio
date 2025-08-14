@@ -17,6 +17,10 @@ clean_int <- getFromNamespace("clean_int", "rtemis")
 
 rtemisbio_version <- utils::packageVersion("rtemisbio")
 
+.onLoad <- function(libname, pkgname) {
+  S7::methods_register()
+}
+
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
     paste0(
