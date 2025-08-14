@@ -4,14 +4,16 @@
 \alias{aa_sub}
 \title{Perform amino acid substitutions}
 \usage{
-aa_sub(x, substitutions, verbosity = 1)
+aa_sub(x, substitutions, verbosity = 1L)
 }
 \arguments{
-\item{x}{Character or charactr vector: Amino acid sequence. e.g. \code{"ARND"} or
+\item{x}{Character vector: Amino acid sequence. e.g. \code{"ARND"} or
 \code{c("A", "R", "N", "D")}.}
 
 \item{substitutions}{Character vector: Substitutions to perform in the format
 "OriginalPositionNew", e.g. \code{c("C291A", "C322A")}.}
+
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 Character vector with substitutions performed.

@@ -8,6 +8,11 @@
 }
 \arguments{
 \item{object}{\code{A3} object.}
+
+\item{...}{Not used}
+}
+\value{
+Called for side effects, prints summary to console.
 }
 \description{
 Summary method for \code{A3} object

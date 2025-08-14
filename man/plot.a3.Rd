@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments passed to \link[rtemis:draw_protein]{rtemis::draw_protein}.}
 }
+\value{
+plotly object
+}
 \description{
 Plot method for \code{A3} object
 }

@@ -18,6 +18,7 @@ Imports:
     data.table,
     rtemis,
     stats,
+    S7,
     utils
 Suggests:
     biomaRt,

@@ -125,7 +125,9 @@ test_that("plot.A3 creates plotly object", {
 })
 
 # %% summary A3 ----
-summary(x)
+test_that("summary.A3 works", {
+  expect_no_error(summary(x))
+})
 
 # %% int2range() ----
 test_that("int2range works for consecutive integers", {
