@@ -22,9 +22,11 @@ Imports:
     utils
 Suggests:
     biomaRt,
+    colorspace,
     dplyr,
     httr,
     jsonlite,
+    plotly,
     seqinr,
     testthat (>= 3.0.0)
 Additional_repositories:
