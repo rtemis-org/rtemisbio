@@ -47,14 +47,14 @@ test_that("A3() creates A3 object", {
   expect_s7_class(x, A3)
 })
 
-# %% `[[` method for A3 ----
-test_that("`[[` method for A3 works", {
-  expect_equal(x[["sequence"]], sequence)
-})
-
 # %% `[` method for A3 ----
 test_that("`[` method for A3 works", {
   expect_equal(x[c("sequence", "uniprotid")], list(sequence, "P12345"))
+})
+
+# %% `[[` method for A3 ----
+test_that("`[[` method for A3 works", {
+  expect_equal(x[["sequence"]], sequence)
 })
 
 # %% create_A3() ----
@@ -83,7 +83,7 @@ test_that("create_A3() creates A3 object", {
   expect_s7_class(x, A3)
 })
 
-# %% Print A3 ----
+# %% print A3 ----
 test_that("Print A3 works", {
   expect_no_error(print(x))
 })
@@ -114,18 +114,15 @@ x <- list(
 ) |>
   as_A3()
 
-test_that("as_A3 works", {
+test_that("as_A3() creates A3 object", {
   expect_s7_class(x, A3)
 })
 
 # %% plot A3 ----
-if (requireNamespace("rtemis")) {
-  plt <- plot(x)
-  test_that("plot.A3 creates plotly object", {
-    expect_s3_class(plt, "plotly")
-  })
-}
-
+plt <- plot(x)
+test_that("plot.A3 creates plotly object", {
+  expect_s3_class(plt, "plotly")
+})
 
 # %% summary A3 ----
 test_that("summary.A3 works", {
