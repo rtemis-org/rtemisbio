@@ -62,15 +62,23 @@ A3 <- new_class(
   }
 ) # /rtemisbio::A3
 
+
 # `[` method for A3 ----
-method(`[`, A3) <- function(x, names) {
-  lapply(names, function(name) prop(x, name))
+method(`[`, A3) <- function(x, elements) {
+  sapply(
+    elements,
+    function(name) prop(x, name),
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
 } # A3.[
+
 
 # `[[` method for A3 ----
 method(`[[`, A3) <- function(x, name) {
   prop(x, name)
 } # A3.[[
+
 
 # create_A3 ----
 #' Create an `A3` object
@@ -146,12 +154,13 @@ create_A3 <- function(
 #' @method print A3
 #' @param x `A3` object.
 #' @param head_n Integer: Number of characters to show from the sequence.
-#' @param ... Not used.
 #'
 #' @return Called for side effects, prints object to console
 #'
 #' @author EDG
-print.A3 <- function(x, head_n = 10, ...) {
+#'
+#' @noRd
+method(print, A3) <- function(x, head_n = 10) {
   cat(
     gray("<"),
     orange("A3", bold = TRUE),
@@ -234,10 +243,8 @@ print.A3 <- function(x, head_n = 10, ...) {
   if (!is.null(x[["reference"]])) {
     cat("    Reference:", highlight(x[["reference"]]), "\n")
   }
-  invisible(x)
 } # /rtemisbio::print.A3
 
-method(print, A3) <- print.A3
 
 #' as_A3
 #'
@@ -272,7 +279,7 @@ method(as_A3, class_list) <- function(x) {
 #' @param x `A3` object.
 #' @param ... Additional arguments passed to [rtemis::draw_protein].
 #'
-#' @return plotly object
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
