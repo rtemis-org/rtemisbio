@@ -11,7 +11,6 @@
 #'
 #' @author EDG
 #' @export
-
 write_A3json <- function(x, filepath, overwrite = FALSE) {
   # Check types ----
   check_inherits(x, "A3")
@@ -58,7 +57,6 @@ write_A3json <- function(x, filepath, overwrite = FALSE) {
 #'
 #' @author EDG
 #' @export
-
 read_A3json <- function(filepath, verbosity = 0L) {
   # Check types ----
   check_inherits(filepath, "character")

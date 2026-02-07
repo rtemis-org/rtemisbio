@@ -2,22 +2,20 @@
 # ::rtemisbio::
 # 2024- EDG rtemis.org
 
-#' @title A3 Class
+#' @title A3 Annotated Amino Acid Class
 #'
 #' @description
 #' The annotated amino acid (A3) class is designed to store and manage
 #' amino acid sequences and associated annotations.
 #'
 #' @field sequence Character: Amino acid sequence using single-letter codes.
-#' @field annotations List: Named list including site, region, PTM, cleavage_site, and variant information.
+#' @field annotations List: Named list including site, region, PTM, cleavage_site, and variant
+#' information.
 #' @field uniprotid Character: Uniprot ID associated with the sequence, if available.
 #' @field description Character: Description of the data / experiment.
 #' @field reference Character: Link to reference (journal publication, preprint, etc.)
 #'
-#' @return `A3` object
-#'
 #' @author EDG
-#'
 #' @noRd
 A3 <- new_class(
   "A3",
@@ -111,7 +109,6 @@ method(`[[`, A3) <- function(x, name) {
 #'
 #' @author EDG
 #' @export
-
 create_A3 <- function(
   sequence,
   site = NULL,
@@ -165,7 +162,7 @@ method(print, A3) <- function(x, head_n = 10) {
     gray("<"),
     orange("A3", bold = TRUE),
     gray(">"),
-    " (Annotation Amino Acid sequence object)\n",
+    " (Annotated Amino Acid sequence object)\n",
     sep = ""
   )
   if (!is.null(x[["description"]])) {
@@ -256,7 +253,6 @@ method(print, A3) <- function(x, head_n = 10) {
 #'
 #' @author EDG
 #' @export
-
 as_A3 <- new_generic("as_A3", "x")
 
 method(as_A3, class_list) <- function(x) {
@@ -283,8 +279,7 @@ method(as_A3, class_list) <- function(x) {
 #'
 #' @author EDG
 #' @export
-
-plot.A3 <- function(x, ...) {
+plot.A3 <- method(plot, A3) <- function(x, ...) {
   draw_protein(
     x = x[["sequence"]],
     site = x[["annotations"]][["site"]],
@@ -296,7 +291,6 @@ plot.A3 <- function(x, ...) {
   )
 } # /rtemisbio::plot.A3
 
-method(plot, A3) <- plot.A3
 
 #' Summary method for `A3` object
 #'
@@ -307,8 +301,7 @@ method(plot, A3) <- plot.A3
 #'
 #' @author EDG
 #' @export
-
-summary.A3 <- function(object, ...) {
+summary.A3 <- method(summary, A3) <- function(object, ...) {
   cat("Sequence length: ", length(object[["sequence"]]), "\n")
   if (!is.null(object[["uniprotid"]])) {
     cat("Uniprot ID: ", object[["uniprotid"]], "\n")
@@ -340,8 +333,6 @@ summary.A3 <- function(object, ...) {
   }
 } # /rtemisbio::summary.A3
 
-method(summary, A3) <- summary.A3
-
 
 #' Convert integer range to character with colon separator
 #'
@@ -350,17 +341,16 @@ method(summary, A3) <- summary.A3
 #' @return Character with colon separator.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
-#' \dontrun{
 #' x <- 34:42
 #' int2range(x)
 #' int2range(28:34)
 #' int2range(c(3, 4, 5, 6))
 #' # This will throw an error:
-#' int2range(c(3, 4, 5, 6, 8))
-#' }
+#' # int2range(c(3, 4, 5, 6, 8))
 int2range <- function(x) {
   # Check that x consists of consecutive integers from loweest to highest
   isTRUE(all.equal(x, seq(min(x), max(x)))) ||

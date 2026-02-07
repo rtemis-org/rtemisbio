@@ -14,7 +14,6 @@
 #'
 #' @author EDG
 #' @export
-
 aa_sub <- function(x, substitutions, verbosity = 1L) {
   stopifnot(is.character(x), is.character(substitutions))
   # Split x into characters
@@ -27,7 +26,7 @@ aa_sub <- function(x, substitutions, verbosity = 1L) {
     to <- strngs[length(strngs)]
     pos <- as.numeric(strngs[2:(length(strngs) - 1)] |> paste(collapse = ""))
     if (verbosity > 0) {
-      msg2(
+      msg(
         "Substituting",
         highlight(from),
         "at position",
@@ -39,7 +38,7 @@ aa_sub <- function(x, substitutions, verbosity = 1L) {
     x[pos] <- to
   }
   if (verbosity > 0) {
-    msg2("All done.")
+    msg("All done.")
   }
   x
-} # rtemisbio::aa_sub
+} # /rtemisbio::aa_sub

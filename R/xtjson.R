@@ -1,10 +1,10 @@
-# write.xtjson.R
+# write_Xtjson.R
 # ::rtemisbio::
-# 2024 EDG rtemis.org
+# 2024- EDG rtemis.org
 
-#' Write `xt` object to JSON file
+#' Write `Xt` object to JSON file
 #'
-#' @param x `xt` object, as created by [toxt] or [as.xt].
+#' @param x `Xt` object, as created by [as_Xt].
 #' @param filepath Character: Path to save JSON file.
 #'
 #' @return Nothing. Writes JSON file.
@@ -12,9 +12,9 @@
 #' @author EDG
 #' @export
 
-write.xtjson <- function(x, filepath, overwrite = FALSE) {
+write_Xtjson <- function(x, filepath, overwrite = FALSE) {
   # Check types ----
-  check_inherits(x, "xt")
+  check_is_S7(x, Xt)
   check_inherits(filepath, "character")
 
   # Check dependencies ----
@@ -42,16 +42,16 @@ write.xtjson <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-} # /rtemisbio::write.xtjson
+} # /rtemisbio::write_Xtjson
 
 
-# read.xtjson.R
+# read_Xtjson.R
 # ::rtemisbio::
 # 2024 EDG rtemis.org
 
-#' Read `xt` object from JSON file
+#' Read `Xt` object from JSON file
 #'
-#' @details Note that factors saved under `group` are written as character by [write.xtjson] and
+#' @details Note that factors saved under `group` are written as character by [write_Xtjson] and
 #' when they are read back in, they are converted back to factors using [factor]. This means that
 #' the levels will be set alphabetically. If needed, reorder them after reading in the JSON file
 #' using [factor].
@@ -59,12 +59,12 @@ write.xtjson <- function(x, filepath, overwrite = FALSE) {
 #' @param filepath Character: Path to JSON file.
 #' @param verbosity Integer: if greater than 0, print messages.
 #'
-#' @return `xt` object.
+#' @return `Xt` object.
 #'
 #' @author EDG
 #' @export
 
-read.xtjson <- function(filepath, verbosity = 0L) {
+read_Xtjson <- function(filepath, verbosity = 0L) {
   # Check types ----
   check_inherits(filepath, "character")
 
@@ -94,12 +94,12 @@ read.xtjson <- function(filepath, verbosity = 0L) {
     xt$group <- lapply(xt$group, factor)
   }
 
-  # Convert to `xt` object
-  xt <- as.xt(xt)
+  # Convert to `Xt` object
+  xt <- as_Xt(xt)
 
   if (verbosity > 0) {
     cat("Read", filepath, ":\n", sep = "")
     print(xt)
   }
   xt
-} # /rtemisbio::read.xtjson
+} # /rtemisbio::read_Xtjson

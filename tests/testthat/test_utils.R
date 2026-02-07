@@ -3,6 +3,7 @@
 
 # %% gene2sequence ----
 test_that("gene2sequence works", {
+  skip("gene2sequence queries ensembl.org. Avoid running repeatedly.")
   expect_s3_class(
     gene2sequence("MAPT"),
     "data.frame"

@@ -1,7 +1,7 @@
 Package: rtemisbio
 Title: rtemis Bio-informatics
-Version: 0.4.0
-Date: 2025-08-11
+Version: 0.4.1
+Date: 2026-02-06
 Authors@R: 
     person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"),
            email = "gennatas@gmail.com",
@@ -10,13 +10,14 @@ Description: Bio-informatics utilities extending rtemis package.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends:
     R (>= 4.1.0)
 Imports:
     cli,
     data.table,
     rtemis,
+    rtemisutils,
     stats,
     S7,
     utils

@@ -10,8 +10,8 @@
 #' @return Numeric: Jaccard index.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 jaccard_index <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -29,8 +29,8 @@ jaccard_index <- function(x, y) {
 #' @return Numeric: Dice coefficient.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 dice_coefficient <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -51,8 +51,8 @@ dice_coefficient <- function(x, y) {
 #' @return Numeric: Overlap coefficient.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 overlap_coefficient <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -71,8 +71,8 @@ overlap_coefficient <- function(x, y) {
 #' @return Numeric: Cosine similarity.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 cosine_similarity <- function(x, y, sequence) {
   xbin <- rep(0, length(sequence))
   xbin[x] <- 1
@@ -91,7 +91,8 @@ cosine_similarity <- function(x, y, sequence) {
 #' @return Numeric: Pointwise Mutual Information.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 pmi <- function(x, y, sequence) {
   if (is.null(sequence)) {
     cli::cli_abort("The sequence is required for PMI calculation.")
@@ -129,7 +130,8 @@ pmi <- function(x, y, sequence) {
 #' @return Matrix of pairwise similarity scores.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
   # Apply similarity metric on all pairs of elements in x
   n <- length(x)

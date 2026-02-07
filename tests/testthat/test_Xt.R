@@ -8,18 +8,18 @@
 n <- 500
 r <- sort(rnorm(n))
 x <- list(
-  sinx = sin(r) + .05 * rnorm(n),
-  cosx = cos(r) + .05 * rnorm(n)
+  time = seq_len(n)
 )
 y <- list(
-  time = seq_len(n)
+  sinx = sin(r) + .05 * rnorm(n),
+  cosx = cos(r) + .05 * rnorm(n)
 )
 
 obj <- Xt(
   x = x,
   y = y
 )
-
+obj
 test_that("Xt() creates Xt object", {
   expect_s7_class(obj, Xt)
 })

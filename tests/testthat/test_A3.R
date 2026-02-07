@@ -1,7 +1,7 @@
 # test-A3.R
 # ::rtemisbio::
 
-# devtools::load_all("~/Code/rtemis-org/rtemis/")
+# devtools::load_all("~/Code/rtemis-org/rtemisbio/")
 # library(testthat)
 
 # %% A3() ----
@@ -29,7 +29,7 @@ x <- A3(
     Glycosylation = c(3, 6)
   ),
   region = list(
-    Transmembrane = c(5:10)
+    Transmembrane = c(3:6)
   ),
   ptm = list(
     Methylation = c(4, 8)
@@ -49,7 +49,10 @@ test_that("A3() creates A3 object", {
 
 # %% `[` method for A3 ----
 test_that("`[` method for A3 works", {
-  expect_equal(x[c("sequence", "uniprotid")], list(sequence, "P12345"))
+  expect_equal(
+    x[c("sequence", "uniprotid")],
+    list(sequence = sequence, uniprotid = "P12345")
+  )
 })
 
 # %% `[[` method for A3 ----
@@ -65,7 +68,7 @@ x <- create_A3(
     Glycosylation = c(3, 6)
   ),
   region = list(
-    Transmembrane = c(5:10)
+    Transmembrane = c(3:6)
   ),
   ptm = list(
     Methylation = c(4, 8)
@@ -82,6 +85,7 @@ x <- create_A3(
 test_that("create_A3() creates A3 object", {
   expect_s7_class(x, A3)
 })
+
 
 # %% print A3 ----
 test_that("Print A3 works", {
