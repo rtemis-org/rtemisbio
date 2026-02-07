@@ -7,6 +7,7 @@ Authors@R:
            email = "gennatas@gmail.com",
            comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Bio-informatics utilities extending rtemis package.
+URL: https://rtemisbio.rtemis.org
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -33,4 +34,3 @@ Suggests:
 Additional_repositories:
     https://egenn.r-universe.dev
 Config/testthat/edition: 3
-URL: https://rtemisbio.rtemis.org
