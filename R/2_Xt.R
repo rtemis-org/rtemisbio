@@ -263,7 +263,9 @@ method(print, Xt) <- function(x, head_n = 10, ...) {
 #'
 #' @author EDG
 #' @export
-as_Xt <- new_generic("as_Xt", "x")
+as_Xt <- new_generic("as_Xt", "x", function(x) {
+  S7_dispatch()
+})
 
 method(as_Xt, class_list) <- function(x) {
   # Check types
@@ -320,7 +322,7 @@ plot.Xt <- method(plot, Xt) <- function(x, ...) {
 #' Aggregate method for `Xt` object
 #'
 #' @param x `Xt` object.
-#' @param group Character: Grouping variable.
+#' @param groupname Character: Grouping variable.
 #' @param fn Function: Function to apply to each group.
 #' @param backend Character: "base", "data.table", or "dplyr"; backend to use for aggregation.
 #' @param ... Additional arguments passed to `fn`.
@@ -416,6 +418,7 @@ aggregate.Xt <- method(aggregate, Xt) <- function(
 #' Calculates light/dark ratio for each `y` and `y2` timeseries in an `Xt` object.
 #'
 #' @param x `Xt` object.
+#' @param groupname Character: Grouping variable.
 #' @param fn Function: Function to apply to each group.
 #' @param backend Character: "base", "data.table", or "dplyr"; backend to use for aggregation.
 #' @param ... Additional arguments passed to `fn`.

@@ -151,13 +151,14 @@ create_A3 <- function(
 #' @method print A3
 #' @param x `A3` object.
 #' @param head_n Integer: Number of characters to show from the sequence.
+#' @param ... Not used.
 #'
 #' @return Called for side effects, prints object to console
 #'
 #' @author EDG
 #'
 #' @noRd
-method(print, A3) <- function(x, head_n = 10) {
+method(print, A3) <- function(x, head_n = 10, ...) {
   cat(
     gray("<"),
     orange("A3", bold = TRUE),
@@ -253,7 +254,9 @@ method(print, A3) <- function(x, head_n = 10) {
 #'
 #' @author EDG
 #' @export
-as_A3 <- new_generic("as_A3", "x")
+as_A3 <- new_generic("as_A3", "x", function(x) {
+  S7_dispatch()
+})
 
 method(as_A3, class_list) <- function(x) {
   create_A3(

@@ -10,6 +10,8 @@ write_A3json(x, filepath, overwrite = FALSE)
 \item{x}{\code{A3} object, as created by \code{as_A3()}.}
 
 \item{filepath}{Character: Path to save JSON file.}
+
+\item{overwrite}{Logical: If TRUE, overwrite existing file.}
 }
 \value{
 Nothing. Writes JSON file.

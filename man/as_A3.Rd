@@ -4,7 +4,7 @@
 \alias{as_A3}
 \title{as_A3}
 \usage{
-as_A3(x, ...)
+as_A3(x)
 }
 \arguments{
 \item{x}{List: Named list with elements \code{Sequence}, \code{Annotations}, \code{UniprotID}.

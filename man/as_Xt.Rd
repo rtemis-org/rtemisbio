@@ -4,7 +4,7 @@
 \alias{as_Xt}
 \title{as_Xt}
 \usage{
-as_Xt(x, ...)
+as_Xt(x)
 }
 \arguments{
 \item{x}{Object to convert to \code{Xt}.}

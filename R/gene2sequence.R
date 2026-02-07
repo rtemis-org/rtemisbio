@@ -8,6 +8,8 @@
 #' @param organism Character: Organism name.
 #' @param biomart Character: Biomart name.
 #' @param host Character: Host address.
+#' @param seq_type Character: Sequence type to retrieve. See [biomaRt::getSequence].
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return data.frame with columns "gene", "ensembl_transcript_id" and "sequence".
 #'
@@ -19,7 +21,7 @@ gene2sequence <- function(
   biomart = "ensembl",
   host = "https://www.ensembl.org",
   seq_type = "coding",
-  verbosity = 1
+  verbosity = 1L
 ) {
   # Check dependencies ----
   check_dependencies("biomaRt")

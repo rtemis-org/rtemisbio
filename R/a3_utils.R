@@ -10,7 +10,6 @@
 #'
 #' @author EDG
 #' @export
-
 get_alphafold <- function(uniprotid) {
   url <- paste0("https://www.alphafold.ebi.ac.uk/api/prediction/", uniprotid)
   headers <- c(

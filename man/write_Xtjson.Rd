@@ -10,6 +10,8 @@ write_Xtjson(x, filepath, overwrite = FALSE)
 \item{x}{\code{Xt} object, as created by \link{as_Xt}.}
 
 \item{filepath}{Character: Path to save JSON file.}
+
+\item{overwrite}{Logical: If TRUE, overwrite existing file.}
 }
 \value{
 Nothing. Writes JSON file.

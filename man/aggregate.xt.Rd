@@ -15,13 +15,13 @@
 \arguments{
 \item{x}{\code{Xt} object.}
 
+\item{groupname}{Character: Grouping variable.}
+
 \item{fn}{Function: Function to apply to each group.}
 
 \item{backend}{Character: "base", "data.table", or "dplyr"; backend to use for aggregation.}
 
 \item{...}{Additional arguments passed to \code{fn}.}
-
-\item{group}{Character: Grouping variable.}
 }
 \description{
 Aggregate method for \code{Xt} object

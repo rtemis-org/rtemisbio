@@ -10,7 +10,7 @@ gene2sequence(
   biomart = "ensembl",
   host = "https://www.ensembl.org",
   seq_type = "coding",
-  verbosity = 1
+  verbosity = 1L
 )
 }
 \arguments{
@@ -21,6 +21,10 @@ gene2sequence(
 \item{biomart}{Character: Biomart name.}
 
 \item{host}{Character: Host address.}
+
+\item{seq_type}{Character: Sequence type to retrieve. See \link[biomaRt:getSequence]{biomaRt::getSequence}.}
+
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 data.frame with columns "gene", "ensembl_transcript_id" and "sequence".

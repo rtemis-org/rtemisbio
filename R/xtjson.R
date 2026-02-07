@@ -1,4 +1,4 @@
-# write_Xtjson.R
+# Xtjson.R
 # ::rtemisbio::
 # 2024- EDG rtemis.org
 
@@ -6,6 +6,7 @@
 #'
 #' @param x `Xt` object, as created by [as_Xt].
 #' @param filepath Character: Path to save JSON file.
+#' @param overwrite Logical: If TRUE, overwrite existing file.
 #'
 #' @return Nothing. Writes JSON file.
 #'
@@ -44,10 +45,6 @@ write_Xtjson <- function(x, filepath, overwrite = FALSE) {
   )
 } # /rtemisbio::write_Xtjson
 
-
-# read_Xtjson.R
-# ::rtemisbio::
-# 2024 EDG rtemis.org
 
 #' Read `Xt` object from JSON file
 #'

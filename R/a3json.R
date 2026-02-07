@@ -6,6 +6,7 @@
 #'
 #' @param x `A3` object, as created by `as_A3()`.
 #' @param filepath Character: Path to save JSON file.
+#' @param overwrite Logical: If TRUE, overwrite existing file.
 #'
 #' @return Nothing. Writes JSON file.
 #'
