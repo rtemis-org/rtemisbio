@@ -4,10 +4,9 @@
 
 #' Get protein sequence from UniProt
 #'
-#' @param accession Character: UniProt Accession number - e.g. "Q9UMX9"
+#' @param accession Character: UniProt Accession number - e.g. "Q9UMX9".
 #' @param baseURL Character: UniProt rest API base URL.
-#' Default = "https://rest.uniprot.org/uniprotkb"
-#' @param verbose Logical: If TRUE, print messages to console
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return List with three elements: Identifier, Annotation, and Sequence.
 #'
@@ -20,7 +19,7 @@
 uniprot_get <- function(
   accession,
   baseURL = "https://rest.uniprot.org/uniprotkb",
-  verbosity = 1
+  verbosity = 1L
 ) {
   # Check types
   check_inherits(accession, "character")
@@ -29,8 +28,8 @@ uniprot_get <- function(
   dat <- seqinr::read.fasta(path, seqtype = "AA")
   Annotation <- attr(dat[[1]], "Annot")
   Identifier <- gsub(" .*", "", Annotation)
-  if (verbosity > 0) {
-    msg2("Got:", highlight(Annotation))
+  if (verbosity > 0L) {
+    msg("Got:", highlight(Annotation))
   }
 
   list(

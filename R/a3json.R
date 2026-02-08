@@ -1,20 +1,20 @@
-# write.a3json.R
+# write_A3json.R
 # ::rtemisbio::
-# 2024 EDG rtemis.org
+# 2024- EDG rtemis.org
 
-#' Write `a3` object to JSON file
+#' Write `A3` object to JSON file
 #'
-#' @param x `a3` object, as created by `as.a3()`.
+#' @param x `A3` object, as created by `as_A3()`.
 #' @param filepath Character: Path to save JSON file.
+#' @param overwrite Logical: If TRUE, overwrite existing file.
 #'
 #' @return Nothing. Writes JSON file.
 #'
 #' @author EDG
 #' @export
-
-write.a3json <- function(x, filepath, overwrite = FALSE) {
+write_A3json <- function(x, filepath, overwrite = FALSE) {
   # Check types ----
-  check_inherits(x, "a3")
+  check_is_S7(x, A3)
   check_inherits(filepath, "character")
 
   # Check dependencies ----
@@ -42,24 +42,23 @@ write.a3json <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-} # /rtemisbio::write.a3json
+} # /rtemisbio::write_A3json
 
 
-# read.a3json.R
+# read_A3json.R
 # ::rtemisbio::
 # 2024 EDG rtemis.org
 
-#' Read `a3` object from JSON file
+#' Read `A3` object from JSON file
 #'
 #' @param filepath Character: Path to JSON file.
 #' @param verbosity Integer: if greater than 0, print messages.
 #'
-#' @return `a3` object.
+#' @return `A3` object.
 #'
 #' @author EDG
 #' @export
-
-read.a3json <- function(filepath, verbosity = 0L) {
+read_A3json <- function(filepath, verbosity = 0L) {
   # Check types ----
   check_inherits(filepath, "character")
 
@@ -75,16 +74,16 @@ read.a3json <- function(filepath, verbosity = 0L) {
   }
 
   # Read from file
-  a3 <- jsonlite::read_json(
+  A3 <- jsonlite::read_json(
     path = filepath,
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   ) |>
-    as.a3()
+    as_A3()
 
   if (verbosity > 0) {
     cat("Read", filepath, ":\n", sep = "")
-    print(a3)
+    print(A3)
   }
-  a3
-} # /rtemisbio::read.a3json
+  A3
+} # /rtemisbio::read_A3json

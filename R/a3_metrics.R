@@ -1,4 +1,4 @@
-# a3_metrics.R
+# A3_metrics.R
 # ::rtemisbio::
 # 2024 EDG rtemis.org
 
@@ -10,8 +10,8 @@
 #' @return Numeric: Jaccard index.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 jaccard_index <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -29,8 +29,8 @@ jaccard_index <- function(x, y) {
 #' @return Numeric: Dice coefficient.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 dice_coefficient <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -44,15 +44,15 @@ dice_coefficient <- function(x, y) {
 #' Overlap Coefficient
 #'
 #' Overlap Coefficient a.k.a. Szymkiewicz-Simpson coefficient.
-#' 
+#'
 #' @param x Character vector. Will be coerced to character.
 #' @param y Character vector. Will be coerced to character.
 #'
 #' @return Numeric: Overlap coefficient.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 overlap_coefficient <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
@@ -71,8 +71,8 @@ overlap_coefficient <- function(x, y) {
 #' @return Numeric: Cosine similarity.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 cosine_similarity <- function(x, y, sequence) {
   xbin <- rep(0, length(sequence))
   xbin[x] <- 1
@@ -84,52 +84,67 @@ cosine_similarity <- function(x, y, sequence) {
 
 #' Pointwise Mutual Information
 #'
-#' @param x Character vector. Will be coerced to character.
-#' @param y Character vector. Will be coerced to character.
+#' @param x Character vector of PTM sites. Will be coerced to character.
+#' @param y Character vector of PTM sites. Will be coerced to character.
+#' @param sequence Character vector representing the protein sequence, used to determine the total number of possible sites.
 #'
 #' @return Numeric: Pointwise Mutual Information.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
+pmi <- function(x, y, sequence) {
+  if (is.null(sequence)) {
+    cli::cli_abort("The sequence is required for PMI calculation.")
+  }
+  L <- length(sequence)
+  if (L == 0) {
+    cli::cli_abort("The sequence cannot be empty.")
+  }
 
-pmi <- function(x, y) {
   x <- unique(as.character(x))
   y <- unique(as.character(y))
-  n_x_and_y <- length(intersect(x, y))
   n_x <- length(x)
   n_y <- length(y)
-  n_x_and_y / (n_x * n_y)
+
+  if (n_x == 0 || n_y == 0) {
+    return(0)
+  }
+
+  n_x_and_y <- length(intersect(x, y))
+
+  if (n_x_and_y == 0) {
+    return(-Inf)
+  }
+
+  log2((n_x_and_y * L) / (n_x * n_y))
 } # /rtemisbio::pmi
 
-pmi <- function(x, y, data) {
-  px <- sum(x) / length(data)
-  py <- sum(y) / length(data)
-  pxy <- sum(x * y) / length(data)
-  log2(pxy / (px * py))
-}
 
 #' Pairwise PTM similarity
 #'
 #' @param x List of PTM annotations
 #' @param metric Character: "jaccard", "dice", "overlap", "cosine", "pmi"
+#' @param sequence Character vector representing the protein sequence. Required for 'cosine' and 'pmi' metrics.
 #'
 #' @return Matrix of pairwise similarity scores.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
   # Apply similarity metric on all pairs of elements in x
   n <- length(x)
   sim <- matrix(NA, nrow = n, ncol = n)
   for (i in seq_along(x)) {
     for (j in seq_along(x)) {
-      sim[i, j] <- switch(metric,
+      sim[i, j] <- switch(
+        metric,
         "jaccard" = jaccard_index(x[[i]], x[[j]]),
         "dice" = dice_coefficient(x[[i]], x[[j]]),
         "overlap" = overlap_coefficient(x[[i]], x[[j]]),
         "cosine" = cosine_similarity(x[[i]], x[[j]], sequence),
-        "pmi" = pmi(x[[i]], x[[j]], x)
+        "pmi" = pmi(x[[i]], x[[j]], sequence)
       )
     }
   }

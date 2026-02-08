@@ -8,19 +8,20 @@
 #' @param organism Character: Organism name.
 #' @param biomart Character: Biomart name.
 #' @param host Character: Host address.
+#' @param seq_type Character: Sequence type to retrieve. See [biomaRt::getSequence].
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return data.frame with columns "gene", "ensembl_transcript_id" and "sequence".
 #'
 #' @author EDG
 #' @export
-
 gene2sequence <- function(
   gene,
   organism = "hsapiens",
   biomart = "ensembl",
   host = "https://www.ensembl.org",
   seq_type = "coding",
-  verbosity = 1
+  verbosity = 1L
 ) {
   # Check dependencies ----
   check_dependencies("biomaRt")
@@ -29,7 +30,7 @@ gene2sequence <- function(
   stopifnot(is.character(gene))
 
   if (verbosity > 0) {
-    msg20("Getting sequence for gene ", highlight(gene), "...")
+    msg0("Getting sequence for gene ", highlight(gene), "...")
   }
 
   # Mart ----
@@ -49,7 +50,7 @@ gene2sequence <- function(
   )
 
   if (verbosity > 0) {
-    msg20(
+    msg0(
       "Found ",
       bold(nrow(transcripts)),
       " transcripts for gene ",
@@ -71,7 +72,7 @@ gene2sequence <- function(
   if (verbosity > 0) {
     # Count number of sequences returned that are not "Sequence unavailable"
     nretrieved <- sum(sequence$coding != "Sequence unavailable")
-    msg20(
+    msg0(
       "Database returned sequences for ",
       bold(nretrieved),
       "/",
@@ -86,4 +87,4 @@ gene2sequence <- function(
     sequence = sequence$coding
   )
   seq
-} # rtemisbio::gene2sequence
+} # /rtemisbio::gene2sequence

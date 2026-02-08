@@ -2,9 +2,70 @@
 # ::rtemisbio::
 # 2024 EDG rtemis.org
 
-#' Create an `xt` object
+#' @title Xt Timeseries Class
 #'
-#' Creates an `xt` object from time series data.
+#' @description
+#' Timeseries class is designed to store and manipulate time series data.
+#'
+#' @field x Named list of datetime vectors.
+#' @field y Named list of numeric vectors: When plotted, these will correspond to the
+#' left y-axis.
+#' @field x2 Named list of datetime vectors: When plotted, these will correspond to the
+#' right x-axis. If not provided, `x` will be used for both `y` and `y2`.
+#' @field y2 Named list of numeric vectors: When plotted, these will correspond to the
+#' right y-axis.
+#' @field zt Numeric vector: Zeitgeber time. If provided, this will be used to label x-axis ticks.
+#' Assumes a single datetime vector in `x`. Elements in `zt` must correspond to elements in `x`.
+#' @field shade Binary vector: `0` indicates no shading, `1` indicates shading. If provided,
+#' this will be used to shade the plot.
+#' @field group Named list of factors: Grouping variable(s).
+#' @field xunits Character: Units for `x`.
+#' @field yunits Character: Units for `y`.
+#' @field y2units Character: Units for `y2`.
+#' @field description Character: Description of the data / experiment.
+#' @field reference Character: Link to reference (journal publication, preprint, etc.)
+#'
+#' @author EDG
+#' @noRd
+Xt <- new_class(
+  "Xt",
+  properties = list(
+    x = class_list,
+    y = class_list,
+    x2 = class_list | NULL,
+    y2 = class_list | NULL,
+    zt = class_numeric | NULL,
+    shade = class_numeric | NULL,
+    group = class_list | NULL,
+    xunits = class_character | NULL,
+    yunits = class_character | NULL,
+    y2units = class_character | NULL,
+    description = class_character | NULL,
+    reference = class_character | NULL
+  )
+) # /rtemisbio::Xt
+
+
+# `[` method for Xt ----
+method(`[`, Xt) <- function(x, elements) {
+  sapply(
+    elements,
+    function(name) prop(x, name),
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
+} # Xt.[
+
+
+# `[[` method for Xt ----
+method(`[[`, Xt) <- function(x, name) {
+  prop(x, name)
+} # Xt.[[
+
+
+#' Create an `Xt` object
+#'
+#' Creates an `Xt` object from time series data.
 #'
 #' @param x Named list of datetime vectors.
 #' @param y Named list of numeric vectors: When plotted, these will correspond to the
@@ -24,12 +85,11 @@
 #' @param description Character: Description of the data / experiment.
 #' @param reference Character: Link to reference (journal publication, preprint, etc.)
 #'
-#' @return `xt` object
+#' @return `Xt` object
 #'
 #' @author EDG
 #' @export
-
-toxt <- function(
+create_Xt <- function(
   x,
   y,
   x2 = NULL,
@@ -44,9 +104,6 @@ toxt <- function(
   reference = NULL
 ) {
   # Check types
-  # check_inherits(x, "list")
-  # check_inherits(y, "list")
-  # check_inherits(y2, "list")
   check_inherits(xunits, "character")
   check_inherits(yunits, "character")
   check_inherits(y2units, "character")
@@ -61,6 +118,12 @@ toxt <- function(
     y <- list(y)
   }
 
+  if (!is.null(x2)) {
+    if (!is.list(x2)) {
+      x2 <- list(x2)
+    }
+  }
+
   if (!is.null(y2)) {
     if (!is.list(y2)) {
       y2 <- list(y2)
@@ -73,44 +136,42 @@ toxt <- function(
     }
   }
 
-  # Convert to `xt` object
-  xt <- list(
+  # Convert to `Xt` object
+  Xt(
     x = x,
     x2 = x2,
     y = y,
     y2 = y2,
     zt = zt,
-    Shade = shade,
-    Group = group,
+    shade = shade,
+    group = group,
     xunits = xunits,
     yunits = yunits,
     y2units = y2units,
-    Description = description,
-    Reference = reference
+    description = description,
+    reference = reference
   )
+} # /rtemisbio::create_Xt
 
-  class(xt) <- c("xt", "list")
-  xt
-} # /rtemisbio::toxt
 
-#' Print method for `xt` object
+#' Print method for `Xt` object
 #'
-#' @method print xt
+#' @method print `Xt`
 #'
-#' @param x `xt` object.
+#' @param x `Xt` object.
 #' @param ... Not used.
 #'
-#' @return `xt` object, invisibly.
+#' @return `Xt` object, invisibly.
 #'
 #' @author EDG
-#' @export
-
-print.xt <- function(x, head_n = 10, ...) {
+#'
+#' @noRd
+method(print, Xt) <- function(x, head_n = 10, ...) {
   cat("  .:", orange("xt", bold = TRUE), " timeseries object\n", sep = "")
-  if (!is.null(x[["Description"]])) {
-    cat("  Description:", highlight(x[["Description"]]), "\n")
+  if (!is.null(x[["description"]])) {
+    cat("  Description:", highlight(x[["description"]]), "\n")
   }
-  length_x <- length(x$x)
+  length_x <- length(x[["x"]])
   cat(
     "  ",
     highlight(length_x),
@@ -118,12 +179,12 @@ print.xt <- function(x, head_n = 10, ...) {
     ngettext(length_x, "vector", "vectors"),
     " of ",
     ngettext(length_x, "length ", "lengths "),
-    highlight(paste(sapply(x$x, length), collapse = ", ")),
+    highlight(paste(sapply(x[["x"]], length), collapse = ", ")),
     "\n",
     sep = ""
   )
 
-  length_x2 <- length(x$x2)
+  length_x2 <- length(x[["x2"]])
   if (length_x2 > 0) {
     cat(
       "  ",
@@ -132,7 +193,7 @@ print.xt <- function(x, head_n = 10, ...) {
       ngettext(length_x2, "vector", "vectors"),
       " of ",
       ngettext(length_x2, "length ", "lengths "),
-      highlight(paste(sapply(x$x2, length), collapse = ", ")),
+      highlight(paste(sapply(x[["x2"]], length), collapse = ", ")),
       "\n",
       sep = ""
     )
@@ -176,110 +237,92 @@ print.xt <- function(x, head_n = 10, ...) {
     )
   }
 
-  if (!is.null(x$Group)) {
+  if (!is.null(x[["group"]])) {
     cat(
       "  ",
-      highlight(length(x$Group)),
-      ngettext(length(x$Group), " grouping", " groupings"),
+      highlight(length(x[["group"]])),
+      ngettext(length(x[["group"]]), " grouping", " groupings"),
       ": ",
-      paste(highlight(names(x$Group)), collapse = ", "),
+      paste(highlight(names(x[["group"]])), collapse = ", "),
       "\n",
       sep = ""
     )
   }
-  if (!is.null(x[["Reference"]])) {
-    cat("  Reference:", highlight(x[["Reference"]]), "\n")
+  if (!is.null(x[["reference"]])) {
+    cat("  Reference:", highlight(x[["reference"]]), "\n")
   }
   invisible(x)
-} # /rtemisbio::print.xt
+} # /rtemisbio::print.Xt
 
 
-#' as.xt
+#' as_Xt
 #'
-#' @param x Object to convert to `xt`.
+#' @param x Object to convert to `Xt`.
 #'
-#' @return `xt` object.
+#' @return `Xt` object.
 #'
 #' @author EDG
 #' @export
+as_Xt <- new_generic("as_Xt", "x", function(x) {
+  S7_dispatch()
+})
 
-as.xt <- function(x) {
-  UseMethod("as.xt")
-} # /rtemisbio::as.xt
-
-#' as.xt
-#'
-#' @param x Object to convert to `xt`.
-#'
-#' @return `xt` object.
-#'
-#' @author EDG
-#' @export
-
-as.xt.default <- function(x) {
-  check_inherits(x, "list")
-  as.xt.list(x)
-} # /rtemisbio::as.xt
-
-
-#' as.xt.list method
-#'
-#' @param x List: Named list with elements `x`, `y`, `y2`, `xunits`, `yunits`, `y2units`,
-#' `Description`, `Reference`.
-#'
-#' @return `xt` object.
-#'
-#' @author EDG
-#' @export
-
-as.xt.list <- function(x) {
+method(as_Xt, class_list) <- function(x) {
   # Check types
-  check_inherits(x, "list")
-  # check_inherits(x$x, "list")
-  # check_inherits(x[["y"]], "list")
-  # check_inherits(x[["y2"]], "list")
-  check_inherits(x$xunits, "character")
+  check_inherits(x[["xunits"]], "character")
   check_inherits(x[["yunits"]], "character")
   check_inherits(x[["y2units"]], "character")
-  check_inherits(x[["Description"]], "character")
-  check_inherits(x[["Reference"]], "character")
+  check_inherits(x[["description"]], "character")
+  check_inherits(x[["reference"]], "character")
 
-  # Create `xt` object
-  xt <- toxt(
-    x = x$x,
+  # Create `Xt` object
+  xt <- create_Xt(
+    x = x[["x"]],
     y = x[["y"]],
     y2 = x[["y2"]],
-    zt = x$zt,
-    shade = x$Shade,
-    group = x$Group,
-    xunits = x$xunits,
+    zt = x[["zt"]],
+    shade = x[["shade"]],
+    group = x[["group"]],
+    xunits = x[["xunits"]],
     yunits = x[["yunits"]],
     y2units = x[["y2units"]],
-    description = x[["Description"]],
-    reference = x[["Reference"]]
+    description = x[["description"]],
+    reference = x[["reference"]]
   )
   xt
-} # /rtemisbio::as.xt.list
+} # /rtemisbio::as_Xt.list
 
 
-#' Plot method for `xt` object
+#' Plot method for `Xt` object
 #'
-#' @param x `xt` object.
+#' @param x `Xt` object.
 #' @param ... Additional arguments passed to [rtemis::draw_xt].
 #'
-#' @return Plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
+plot.Xt <- method(plot, Xt) <- function(x, ...) {
+  .x <- x[["x"]]
+  draw_xt(
+    x = .x,
+    y = x[["y"]],
+    x2 = x[["x2"]],
+    y2 = x[["y2"]],
+    zt = x[["zt"]],
+    shade_bin = x[["shade"]],
+    xunits = x[["xunits"]],
+    yunits = x[["yunits"]],
+    y2units = x[["y2units"]],
+    ...
+  )
+} # /rtemisbio::plot.Xt
 
-plot.xt <- function(x, ...) {
-  draw_xt(x, ...)
-} # /rtemisbio::plot.xt
 
-#' Aggregate method for `xt` object
+#' Aggregate method for `Xt` object
 #'
-#' @param x `xt` object.
-#' @param group Character: Grouping variable.
+#' @param x `Xt` object.
+#' @param groupname Character: Grouping variable.
 #' @param fn Function: Function to apply to each group.
 #' @param backend Character: "base", "data.table", or "dplyr"; backend to use for aggregation.
 #' @param ... Additional arguments passed to `fn`.
@@ -288,15 +331,14 @@ plot.xt <- function(x, ...) {
 #' @export
 #'
 #' @importFrom stats aggregate
-
-aggregate.xt <- function(
+aggregate.Xt <- method(aggregate, Xt) <- function(
   x,
   groupname,
   fn = mean,
   backend = getOption("rtemis_backend", "base"),
   ...
 ) {
-  check_inherits(x, "xt")
+  check_is_S7(x, Xt)
   # Appease R CMD check
   y <- y2 <- NULL
   # Get name of fn
@@ -307,7 +349,7 @@ aggregate.xt <- function(
     y_agg <- lapply(seq_along(x[["y"]]), function(i) {
       out <- aggregate(
         list(y = x[["y"]][[i]]),
-        by = list(x$Group[[groupname]]),
+        by = list(x[["group"]][[groupname]]),
         FUN = fn,
         ...
       )
@@ -319,7 +361,7 @@ aggregate.xt <- function(
       y2_agg <- lapply(seq_along(x[["y2"]]), function(i) {
         out <- aggregate(
           list(y2 = x[["y2"]][[i]]),
-          by = list(x$Group[[groupname]]),
+          by = list(x[["group"]][[groupname]]),
           FUN = fn,
           ...
         )
@@ -332,7 +374,7 @@ aggregate.xt <- function(
     y_agg <- lapply(seq_along(x[["y"]]), function(i) {
       data.table::data.table(y = x[["y"]][[i]])[,
         list(agg = fn(y)),
-        by = x$Group[[groupname]]
+        by = x[["group"]][[groupname]]
       ] |>
         data.table::setorder() |>
         data.table::setnames(c(groupname, fn_name))
@@ -341,7 +383,7 @@ aggregate.xt <- function(
       y2_agg <- lapply(seq_along(x[["y2"]]), function(i) {
         data.table::data.table(y2 = x[["y2"]][[i]])[,
           list(agg = fn(y2)),
-          by = x$Group[[groupname]]
+          by = x[["group"]][[groupname]]
         ] |>
           data.table::setorder() |>
           data.table::setnames(c(groupname, fn_name))
@@ -351,13 +393,13 @@ aggregate.xt <- function(
     # dplyr
     y_agg <- lapply(seq_along(x[["y"]]), function(i) {
       dplyr::tibble(y = x[["y"]][[i]]) |>
-        dplyr::group_by(Group = x$Group[[groupname]]) |>
+        dplyr::group_by(Group = x[["group"]][[groupname]]) |>
         dplyr::summarize(!!fn_name := fn(y, ...))
     })
     if (!is.null(x[["y2"]])) {
       y2_agg <- lapply(seq_along(x[["y2"]]), function(i) {
         dplyr::tibble(y2 = x[["y2"]][[i]]) |>
-          dplyr::group_by(Group = x$Group[[groupname]]) |>
+          dplyr::group_by(Group = x[["group"]][[groupname]]) |>
           dplyr::summarize(!!fn_name := fn(y2, ...))
       })
     }
@@ -368,14 +410,15 @@ aggregate.xt <- function(
     out[["y2"]] <- y2_agg
   }
   out
-} # /rtemisbio::aggregate.xt
+} # /rtemisbio::aggregate.Xt
 
 
-#' Calculate light/dark ratio for `xt` object
+#' Calculate light/dark ratio for `Xt` object
 #'
-#' Calculates light/dark ratio for each `y` and `y2` timeseries in an `xt` object.
+#' Calculates light/dark ratio for each `y` and `y2` timeseries in an `Xt` object.
 #'
-#' @param x `xt` object.
+#' @param x `Xt` object.
+#' @param groupname Character: Grouping variable.
 #' @param fn Function: Function to apply to each group.
 #' @param backend Character: "base", "data.table", or "dplyr"; backend to use for aggregation.
 #' @param ... Additional arguments passed to `fn`.
@@ -384,7 +427,6 @@ aggregate.xt <- function(
 #'
 #' @author EDG
 #' @export
-
 light_dark_ratio <- function(
   x,
   groupname = "Lights",
@@ -393,6 +435,6 @@ light_dark_ratio <- function(
   ...
 ) {
   # Check types
-  check_inherits(x, "xt")
+  check_is_S7(x, Xt)
   aggregate(x, groupname = groupname, fn = fn, backend = backend, ...)
 } # /rtemisbio::light_dark_ratio

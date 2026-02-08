@@ -7,16 +7,15 @@
 uniprot_get(
   accession,
   baseURL = "https://rest.uniprot.org/uniprotkb",
-  verbosity = 1
+  verbosity = 1L
 )
 }
 \arguments{
-\item{accession}{Character: UniProt Accession number - e.g. "Q9UMX9"}
+\item{accession}{Character: UniProt Accession number - e.g. "Q9UMX9".}
 
-\item{baseURL}{Character: UniProt rest API base URL.
-Default = "https://rest.uniprot.org/uniprotkb"}
+\item{baseURL}{Character: UniProt rest API base URL.}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 List with three elements: Identifier, Annotation, and Sequence.

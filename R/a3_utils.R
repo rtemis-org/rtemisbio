@@ -1,4 +1,4 @@
-# a3_utils.R
+# A3_utils.R
 # ::rtemisbio::
 # 2024 EDG rtemis.org
 
@@ -10,14 +10,14 @@
 #'
 #' @author EDG
 #' @export
-
 get_alphafold <- function(uniprotid) {
   url <- paste0("https://www.alphafold.ebi.ac.uk/api/prediction/", uniprotid)
   headers <- c(
     "accept" = "application/json"
   )
   response <- httr::GET(url, httr::add_headers(.headers = headers))
-  content <- content(response, as = "text", encoding = "UTF-8")
+  httr::stop_for_status(response)
+  content <- httr::content(response, as = "text", encoding = "UTF-8")
   jsonlite::fromJSON(content)
 } # /rtemisbio::get_alphafold
 
