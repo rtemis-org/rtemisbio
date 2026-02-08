@@ -21,10 +21,10 @@ A3 <- new_class(
   "A3",
   properties = list(
     sequence = class_character,
-    annotations = class_list,
-    uniprotid = class_character,
-    description = class_character,
-    reference = class_character
+    annotations = class_list | NULL,
+    uniprotid = class_character | NULL,
+    description = class_character | NULL,
+    reference = class_character | NULL
   ),
   constructor = function(
     sequence,
@@ -145,6 +145,143 @@ create_A3 <- function(
   )
 } # /rtemisbio::create_A3
 
+
+# %% repr A3 ---------------------------------------------------------------------------------------
+method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
+  out <- repr_S7name("A3", output_type = output_type)
+
+  # Description
+  if (!is.null(x[["description"]])) {
+    out <- paste0(
+      out,
+      "  Description: ",
+      bold(x[["description"]], output_type = output_type),
+      "\n"
+    )
+  }
+
+  # Uniprot ID
+  if (!is.null(x[["uniprotid"]])) {
+    out <- paste0(
+      out,
+      "   Uniprot ID: ",
+      bold(x[["uniprotid"]], output_type = output_type),
+      "\n"
+    )
+  }
+
+  # Get annotation info
+  site_annotations <- names(x[["annotations"]][["site"]])
+  region_annotations <- names(x[["annotations"]][["region"]])
+  ptm_annotations <- names(x[["annotations"]][["ptm"]])
+  n_cleavage_site_annotations <- length(x[["annotations"]][["cleavage_site"]])
+  n_variant_annotations <- length(x[["annotations"]][["variant"]])
+
+  # Sequence
+  out <- paste0(
+    out,
+    "     Sequence: ",
+    bold(
+      paste0(utils::head(x[["sequence"]], head_n), collapse = ""),
+      output_type = output_type
+    ),
+    "...",
+    " (length = ",
+    length(x[["sequence"]]),
+    ")\n"
+  )
+
+  # Annotations header
+  out <- paste0(out, "  Annotations:\n")
+
+  # Check if no annotations
+  if (
+    is.null(site_annotations) &&
+      is.null(region_annotations) &&
+      is.null(ptm_annotations) &&
+      n_cleavage_site_annotations == 0 &&
+      n_variant_annotations == 0
+  ) {
+    out <- paste0(out, gray("             None\n", output_type = output_type))
+  }
+
+  # Site annotations
+  if (length(site_annotations) > 0) {
+    out <- paste0(
+      out,
+      "          ",
+      gray(gray("Site:", output_type = output_type)),
+      " ",
+      paste(bold(site_annotations, output_type = output_type), collapse = ", "),
+      "\n"
+    )
+  }
+
+  # Region annotations
+  if (length(region_annotations) > 0) {
+    out <- paste0(
+      out,
+      "        ",
+      gray("Region:", output_type = output_type),
+      " ",
+      paste(
+        bold(region_annotations, output_type = output_type),
+        collapse = ", "
+      ),
+      "\n"
+    )
+  }
+
+  # PTM annotations
+  if (length(ptm_annotations) > 0) {
+    out <- paste0(
+      out,
+      "           ",
+      gray(gray("PTM:", output_type = output_type)),
+      " ",
+      paste(bold(ptm_annotations, output_type = output_type), collapse = ", "),
+      "\n"
+    )
+  }
+
+  # Cleavage site annotations
+  if (n_cleavage_site_annotations > 0) {
+    out <- paste0(
+      out,
+      " ",
+      gray(gray("Cleavage site:", output_type = output_type)),
+      " ",
+      bold(n_cleavage_site_annotations, output_type = output_type),
+      " annotations.\n"
+    )
+  }
+
+  # Variant annotations
+  if (n_variant_annotations > 0) {
+    out <- paste0(
+      out,
+      "      ",
+      gray(gray("Variants:", output_type = output_type)),
+      " ",
+      bold(n_variant_annotations, output_type = output_type),
+      " variant annotations.\n"
+    )
+  }
+
+  # Reference
+  if (!is.null(x[["reference"]])) {
+    out <- paste0(
+      out,
+      "     Reference: ",
+      bold(x[["reference"]], output_type = output_type),
+      "\n"
+    )
+  }
+
+  out
+} # /rtemisbio::repr.A3
+
+
 # Print A3 ----
 #' Print method for `A3` object
 #'
@@ -159,88 +296,7 @@ create_A3 <- function(
 #'
 #' @noRd
 method(print, A3) <- function(x, head_n = 10, ...) {
-  cat(
-    gray("<"),
-    orange("A3", bold = TRUE),
-    gray(">"),
-    " (Annotated Amino Acid sequence object)\n",
-    sep = ""
-  )
-  if (!is.null(x[["description"]])) {
-    cat("  Description:", highlight(x[["description"]]), "\n")
-  }
-  if (!is.null(x[["uniprotid"]])) {
-    cat("   Uniprot ID:", highlight(x[["uniprotid"]]), "\n")
-  }
-  site_annotations <- names(x[["annotations"]][["site"]])
-  region_annotations <- names(x[["annotations"]][["region"]])
-  ptm_annotations <- names(x[["annotations"]][["ptm"]])
-  n_cleavage_site_annotations <- length(x[["annotations"]][["cleavage_site"]])
-  n_variant_annotations <- length(x[["annotations"]][["variant"]])
-  # Head of sequence
-  cat(
-    "     Sequence: ",
-    bold(utils::head(x[["sequence"]], head_n)),
-    "...",
-    " (length = ",
-    length(x[["sequence"]]),
-    ")\n",
-    sep = ""
-  )
-  # Names of annotations
-  cat("  Annotations:\n")
-  if (
-    is.null(site_annotations) &&
-      is.null(region_annotations) &&
-      is.null(ptm_annotations) &&
-      n_cleavage_site_annotations == 0 &&
-      n_variant_annotations == 0
-  ) {
-    cat(gray("             None\n"))
-  }
-  if (length(site_annotations) > 0) {
-    cat(
-      "          ",
-      gray(gray("Site:")),
-      paste(green(site_annotations), collapse = ", "),
-      "\n"
-    )
-  }
-  if (length(region_annotations) > 0) {
-    cat(
-      "        ",
-      gray(gray("Region:")),
-      paste(green(region_annotations), collapse = ", "),
-      "\n"
-    )
-  }
-  if (length(ptm_annotations) > 0) {
-    cat(
-      "           ",
-      gray(gray("PTM:")),
-      paste(green(ptm_annotations), collapse = ", "),
-      "\n"
-    )
-  }
-  if (n_cleavage_site_annotations > 0) {
-    cat(
-      " ",
-      gray(gray("Cleavage site:")),
-      bold(n_cleavage_site_annotations),
-      "annotations.\n"
-    )
-  }
-  if (n_variant_annotations > 0) {
-    cat(
-      "      ",
-      gray(gray("Variants:")),
-      bold(n_variant_annotations),
-      "variant annotations.\n"
-    )
-  }
-  if (!is.null(x[["reference"]])) {
-    cat("    Reference:", highlight(x[["reference"]]), "\n")
-  }
+  cat(repr(x, head_n = head_n))
 } # /rtemisbio::print.A3
 
 
