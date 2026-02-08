@@ -338,7 +338,7 @@ aggregate.Xt <- method(aggregate, Xt) <- function(
   backend = getOption("rtemis_backend", "base"),
   ...
 ) {
-  check_inherits(x, "xt")
+  check_is_S7(x, Xt)
   # Appease R CMD check
   y <- y2 <- NULL
   # Get name of fn
@@ -435,6 +435,6 @@ light_dark_ratio <- function(
   ...
 ) {
   # Check types
-  check_inherits(x, "xt")
+  check_is_S7(x, Xt)
   aggregate(x, groupname = groupname, fn = fn, backend = backend, ...)
 } # /rtemisbio::light_dark_ratio

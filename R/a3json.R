@@ -14,7 +14,7 @@
 #' @export
 write_A3json <- function(x, filepath, overwrite = FALSE) {
   # Check types ----
-  check_inherits(x, "A3")
+  check_is_S7(x, A3)
   check_inherits(filepath, "character")
 
   # Check dependencies ----

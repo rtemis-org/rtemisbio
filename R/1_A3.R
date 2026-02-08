@@ -131,7 +131,6 @@ create_A3 <- function(
   check_inherits(description, "character")
   check_inherits(reference, "character")
 
-  # Convert to JSON
   A3(
     sequence = sequence,
     site = site,
@@ -210,7 +209,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
     out <- paste0(
       out,
       "          ",
-      gray(gray("Site:", output_type = output_type)),
+      gray("Site:", output_type = output_type),
       " ",
       paste(bold(site_annotations, output_type = output_type), collapse = ", "),
       "\n"
@@ -237,7 +236,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
     out <- paste0(
       out,
       "           ",
-      gray(gray("PTM:", output_type = output_type)),
+      gray("PTM:", output_type = output_type),
       " ",
       paste(bold(ptm_annotations, output_type = output_type), collapse = ", "),
       "\n"
@@ -249,7 +248,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
     out <- paste0(
       out,
       " ",
-      gray(gray("Cleavage site:", output_type = output_type)),
+      gray("Cleavage site:", output_type = output_type),
       " ",
       bold(n_cleavage_site_annotations, output_type = output_type),
       " annotations.\n"
@@ -261,7 +260,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
     out <- paste0(
       out,
       "      ",
-      gray(gray("Variants:", output_type = output_type)),
+      gray("Variants:", output_type = output_type),
       " ",
       bold(n_variant_annotations, output_type = output_type),
       " variant annotations.\n"
