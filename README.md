@@ -1,8 +1,8 @@
-[![rtemisbio status badge](https://egenn.r-universe.dev/badges/rtemisbio)](https://egenn.r-universe.dev/rtemisbio)
+[![rtemisbio status badge](https://rtemis-org.r-universe.dev/badges/rtemisbio)](https://rtemis-org.r-universe.dev/rtemisbio)
 
 # rtemisbio
 
-Small & growing set of Bioinformatics tools.
+Bioinformatics extensions for [rtemis](https://www.github.com/rtemis-org/rtenis)
 
 ## Installation
 
@@ -11,27 +11,15 @@ You can install `rtemisbio` from `r-universe` or using `pak`, `remotes`, or `dev
 * `r-universe`:
 
   ```r
-  install.packages('rtemisbio', repos = c('https://egenn.r-universe.dev', 'https://cloud.r-project.org'))
+  install.packages('rtemisbio', repos = c('https://rtemis-org.r-universe.dev', 'https://cloud.r-project.org'))
   ```
 
 * `pak`:
 
   ```r
-  pak::pkg_install("egenn/rtemisbio")
-  ```
-
-* `remotes`:
-
-  ```r
-  remotes::install_github("egenn/rtemisbio")
-  ```
-
-* `devtools`:
-  
-  ```r
-  devtools::install_github("egenn/rtemisbio")
+  pak::pak("rtemis-org/rtemisbio")
   ```
 
 ## Documentation
 
-work in progress: [rtemis.org/rtemisbio](https://rtemis.org/rtemisbio/)
+[rtemisbio.rtemis.org](https://rtemisbio.rtemis.org/)
