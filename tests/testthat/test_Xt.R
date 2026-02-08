@@ -19,7 +19,6 @@ obj <- Xt(
   x = x,
   y = y
 )
-obj
 test_that("Xt() creates Xt object", {
   expect_s7_class(obj, Xt)
 })
@@ -47,13 +46,12 @@ test_that("Print Xt works", {
 })
 
 # %% as_Xt ----
-obj <- list(
-  x = x,
-  y = y
-) |>
-  as_Xt()
-
 test_that("as_Xt() creates Xt object", {
+  obj <- list(
+    x = x,
+    y = y
+  ) |>
+    as_Xt()
   expect_s7_class(obj, Xt)
 })
 
