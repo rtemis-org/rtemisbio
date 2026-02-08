@@ -2,7 +2,7 @@
 
 # rtemisbio
 
-Bioinformatics extensions for [rtemis](https://www.github.com/rtemis-org/rtenis)
+Bioinformatics extensions for [rtemis](https://www.github.com/rtemis-org/rtemis)
 
 ## Installation
 
