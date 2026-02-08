@@ -37,6 +37,20 @@ A3 <- new_class(
     description = NULL,
     reference = NULL
   ) {
+    # Check sequence: If length is 1, check nchar and split if needed.
+    sequence <- toupper(sequence)
+    if (length(sequence) == 0) {
+      cli::cli_abort("Sequence cannot be empty.")
+    }
+    if (length(sequence) == 1) {
+      if (nchar(sequence) > 1) {
+        sequence <- strsplit(sequence, split = "")[[1]]
+      }
+    }
+    # Check no element is length 0
+    if (any(nchar(sequence) == 0)) {
+      cli::cli_abort("Sequence cannot contain empty elements.")
+    }
     check_inherits(site, "list")
     check_inherits(region, "list")
     check_inherits(ptm, "list")
