@@ -135,7 +135,7 @@ test_that("summary.A3 works", {
 
 # %% int2range() ----
 test_that("int2range works for consecutive integers", {
-  expect_equal(int2range(34:42), "34:42")
+  expect_equal(rtemisbio:::int2range(34:42), "34:42")
 })
 
 test_that("int2range fails for non-consecutive integers", {
