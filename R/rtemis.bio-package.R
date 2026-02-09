@@ -9,7 +9,7 @@
 #' @description
 #' Bioinformatics utilities
 #'
-#' @import rtemisutils data.table S7
+#' @import rtemis.utils data.table S7
 #' @importFrom rtemis draw_protein draw_xt
 "_PACKAGE"
 

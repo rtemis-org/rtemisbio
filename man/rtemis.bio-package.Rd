@@ -4,7 +4,6 @@
 \name{rtemis.bio-package}
 \alias{rtemis.bio}
 \alias{rtemis.bio-package}
-\alias{rtemis.bio-package}
 \title{rtemis.bio: Bioinformatics ops}
 \description{
 Bioinformatics utilities
