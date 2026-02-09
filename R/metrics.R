@@ -1,5 +1,5 @@
 # A3_metrics.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024 EDG rtemis.org
 
 #' Jaccard index
@@ -18,7 +18,7 @@ jaccard_index <- function(x, y) {
   n_x_and_y <- length(intersect(x, y))
   n_x_or_y <- length(union(x, y))
   n_x_and_y / n_x_or_y
-} # /rtemisbio::jaccard_index
+} # /rtemis.bio::jaccard_index
 
 
 #' Dice Coefficient
@@ -38,7 +38,7 @@ dice_coefficient <- function(x, y) {
   n_y <- length(y)
   n_x_and_y <- length(intersect(x, y))
   2 * n_x_and_y / (n_x + n_y)
-} # /rtemisbio::dice_coefficient
+} # /rtemis.bio::dice_coefficient
 
 
 #' Overlap Coefficient
@@ -60,7 +60,7 @@ overlap_coefficient <- function(x, y) {
   n_x <- length(x)
   n_y <- length(y)
   n_x_and_y / min(n_x, n_y)
-} # /rtemisbio::overlap_coefficient
+} # /rtemis.bio::overlap_coefficient
 
 
 #' Cosine similarity
@@ -79,7 +79,7 @@ cosine_similarity <- function(x, y, sequence) {
   ybin <- rep(0, length(sequence))
   ybin[y] <- 1
   sum(xbin * ybin) / sqrt(sum(xbin^2)) / sqrt(sum(ybin^2))
-} # /rtemisbio::cosine_similarity
+} # /rtemis.bio::cosine_similarity
 
 
 #' Pointwise Mutual Information
@@ -118,7 +118,7 @@ pmi <- function(x, y, sequence) {
   }
 
   log2((n_x_and_y * L) / (n_x * n_y))
-} # /rtemisbio::pmi
+} # /rtemis.bio::pmi
 
 
 #' Pairwise PTM similarity
@@ -150,4 +150,4 @@ pairwise_similarity <- function(x, metric = "jaccard", sequence = NULL) {
   }
   rownames(sim) <- colnames(sim) <- names(x)
   sim
-} # /rtemisbio::pairwise_similarity
+} # /rtemis.bio::pairwise_similarity

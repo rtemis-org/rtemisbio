@@ -1,8 +1,8 @@
 # zzz.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024- EDG rtemis.org
 
-rtemisbio_version <- utils::packageVersion("rtemisbio")
+rtemis.bio_version <- utils::packageVersion("rtemis.bio")
 
 .onLoad <- function(libname, pkgname) {
   S7::methods_register()
@@ -14,10 +14,10 @@ rtemisbio_version <- utils::packageVersion("rtemisbio")
       ".:",
       pkgname,
       " ",
-      rtemisbio_version,
+      rtemis.bio_version,
       " \U1F9EC",
       " ",
       utils::sessionInfo()[[2]]
     )
   )
-} # /rtemisbio::.onAttach
+} # /rtemis.bio::.onAttach

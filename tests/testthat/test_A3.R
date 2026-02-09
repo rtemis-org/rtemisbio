@@ -1,7 +1,7 @@
 # test-A3.R
-# ::rtemisbio::
+# ::rtemis.bio::
 
-# devtools::load_all("~/Code/rtemis-org/rtemisbio/")
+# devtools::load_all("~/Code/rtemis-org/rtemis.bio/")
 # library(testthat)
 
 # %% A3() ----
@@ -135,7 +135,7 @@ test_that("summary.A3 works", {
 
 # %% int2range() ----
 test_that("int2range works for consecutive integers", {
-  expect_equal(rtemisbio:::int2range(34:42), "34:42")
+  expect_equal(rtemis.bio:::int2range(34:42), "34:42")
 })
 
 test_that("int2range fails for non-consecutive integers", {

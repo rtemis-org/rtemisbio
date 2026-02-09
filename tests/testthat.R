@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(rtemisbio)
+library(rtemis.bio)
 
-test_check("rtemisbio")
+test_check("rtemis.bio")

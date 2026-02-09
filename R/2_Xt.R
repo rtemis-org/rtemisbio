@@ -1,5 +1,5 @@
 # xt.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024 EDG rtemis.org
 
 #' @title Xt Timeseries Class
@@ -43,7 +43,7 @@ Xt <- new_class(
     description = class_character | NULL,
     reference = class_character | NULL
   )
-) # /rtemisbio::Xt
+) # /rtemis.bio::Xt
 
 
 # `[` method for Xt ----
@@ -151,7 +151,7 @@ create_Xt <- function(
     description = description,
     reference = reference
   )
-} # /rtemisbio::create_Xt
+} # /rtemis.bio::create_Xt
 
 
 #' Print method for `Xt` object
@@ -252,7 +252,7 @@ method(print, Xt) <- function(x, head_n = 10, ...) {
     cat("  Reference:", highlight(x[["reference"]]), "\n")
   }
   invisible(x)
-} # /rtemisbio::print.Xt
+} # /rtemis.bio::print.Xt
 
 
 #' as_Xt
@@ -290,7 +290,7 @@ method(as_Xt, class_list) <- function(x) {
     reference = x[["reference"]]
   )
   xt
-} # /rtemisbio::as_Xt.list
+} # /rtemis.bio::as_Xt.list
 
 
 #' Plot method for `Xt` object
@@ -316,7 +316,7 @@ plot.Xt <- method(plot, Xt) <- function(x, ...) {
     y2units = x[["y2units"]],
     ...
   )
-} # /rtemisbio::plot.Xt
+} # /rtemis.bio::plot.Xt
 
 
 #' Aggregate method for `Xt` object
@@ -410,7 +410,7 @@ aggregate.Xt <- method(aggregate, Xt) <- function(
     out[["y2"]] <- y2_agg
   }
   out
-} # /rtemisbio::aggregate.Xt
+} # /rtemis.bio::aggregate.Xt
 
 
 #' Calculate light/dark ratio for `Xt` object
@@ -437,4 +437,4 @@ light_dark_ratio <- function(
   # Check types
   check_is_S7(x, Xt)
   aggregate(x, groupname = groupname, fn = fn, backend = backend, ...)
-} # /rtemisbio::light_dark_ratio
+} # /rtemis.bio::light_dark_ratio

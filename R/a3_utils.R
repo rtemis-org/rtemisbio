@@ -1,5 +1,5 @@
 # A3_utils.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024- EDG rtemis.org
 
 #' Get AlphaFold info for a given UniProt ID
@@ -19,11 +19,11 @@ get_alphafold <- function(uniprotid) {
   httr::stop_for_status(response)
   content <- httr::content(response, as = "text", encoding = "UTF-8")
   jsonlite::fromJSON(content)
-} # /rtemisbio::get_alphafold
+} # /rtemis.bio::get_alphafold
 
 get_alphafold_pdb <- function(uniprotid) {
   get_alphafold(uniprotid)$pdb
-} # /rtemisbio::get_alphafold_pdb
+} # /rtemis.bio::get_alphafold_pdb
 
 
 #' Write `A3` object to JSON file
@@ -66,11 +66,11 @@ write_A3json <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-} # /rtemisbio::write_A3json
+} # /rtemis.bio::write_A3json
 
 
 # read_A3json.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024 EDG rtemis.org
 
 #' Read `A3` object from JSON file
@@ -110,7 +110,7 @@ read_A3json <- function(filepath, verbosity = 0L) {
     print(A3)
   }
   A3
-} # /rtemisbio::read_A3json
+} # /rtemis.bio::read_A3json
 
 
 #' Perform amino acid substitutions
@@ -152,4 +152,4 @@ aa_sub <- function(x, substitutions, verbosity = 1L) {
     msg("All done.")
   }
   x
-} # /rtemisbio::aa_sub
+} # /rtemis.bio::aa_sub

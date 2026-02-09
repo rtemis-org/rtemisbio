@@ -1,5 +1,5 @@
 # test-utils.R
-# ::rtemisbio::
+# ::rtemis.bio::
 
 # %% gene2sequence ----
 test_that("gene2sequence works", {

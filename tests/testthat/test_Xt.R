@@ -1,5 +1,5 @@
 # test_Xt.R
-# ::rtemisbio::
+# ::rtemis.bio::
 
 # devtools::load_all("~/Code/rtemis-org/rtemis/")
 # library(testthat)

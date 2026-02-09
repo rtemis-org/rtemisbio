@@ -1,5 +1,5 @@
 # gene2sequence.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024 EDG rtemis.org
 
 #' Get the sequence of a gene
@@ -87,4 +87,4 @@ gene2sequence <- function(
     sequence = sequence$coding
   )
   seq
-} # /rtemisbio::gene2sequence
+} # /rtemis.bio::gene2sequence

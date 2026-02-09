@@ -1,5 +1,5 @@
 # A3.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024- EDG rtemis.org
 
 #' @title A3 Annotated Amino Acid Class
@@ -72,7 +72,7 @@ A3 <- new_class(
       reference = reference
     )
   }
-) # /rtemisbio::A3
+) # /rtemis.bio::A3
 
 
 # `[` method for A3 ----
@@ -156,7 +156,7 @@ create_A3 <- function(
     description = description,
     reference = reference
   )
-} # /rtemisbio::create_A3
+} # /rtemis.bio::create_A3
 
 
 # %% repr A3 ---------------------------------------------------------------------------------------
@@ -292,7 +292,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
   }
 
   out
-} # /rtemisbio::repr.A3
+} # /rtemis.bio::repr.A3
 
 
 # Print A3 ----
@@ -310,7 +310,7 @@ method(repr, A3) <- function(x, output_type = NULL, head_n = 10) {
 #' @noRd
 method(print, A3) <- function(x, head_n = 10, ...) {
   cat(repr(x, head_n = head_n))
-} # /rtemisbio::print.A3
+} # /rtemis.bio::print.A3
 
 
 #' as_A3
@@ -339,7 +339,7 @@ method(as_A3, class_list) <- function(x) {
     description = x[["description"]],
     reference = x[["reference"]]
   )
-} # /rtemisbio::as_A3.list
+} # /rtemis.bio::as_A3.list
 
 
 #' Plot method for `A3` object
@@ -361,7 +361,7 @@ plot.A3 <- method(plot, A3) <- function(x, ...) {
     variant = x[["annotations"]][["variant"]],
     ...
   )
-} # /rtemisbio::plot.A3
+} # /rtemis.bio::plot.A3
 
 
 #' Summary method for `A3` object
@@ -403,7 +403,7 @@ summary.A3 <- method(summary, A3) <- function(object, ...) {
   if (length(object[["annotations"]][["variant"]]) > 0) {
     cat(length(object[["annotations"]][["variant"]]), "variant annotations.\n")
   }
-} # /rtemisbio::summary.A3
+} # /rtemis.bio::summary.A3
 
 
 #' Convert integer range to character with colon separator
@@ -429,4 +429,4 @@ int2range <- function(x) {
     cli::cli_abort("x must be consecutive integers from lowest to highest.")
 
   paste0(x[1], ":", x[length(x)])
-} # /rtemisbio::int2range
+} # /rtemis.bio::int2range

@@ -1,4 +1,4 @@
-Package: rtemisbio
+Package: rtemis.bio
 Title: rtemis Bio-informatics
 Version: 0.4.1
 Date: 2026-02-06
@@ -7,7 +7,7 @@ Authors@R:
            email = "gennatas@gmail.com",
            comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Bio-informatics utilities extending rtemis package.
-URL: https://rtemisbio.rtemis.org
+URL: https://rtemis.bio.rtemis.org
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -18,7 +18,7 @@ Imports:
     cli,
     data.table,
     rtemis,
-    rtemisutils,
+    rtemis.utils,
     stats,
     S7,
     utils

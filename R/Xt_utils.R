@@ -1,5 +1,5 @@
 # Xtjson.R
-# ::rtemisbio::
+# ::rtemis.bio::
 # 2024- EDG rtemis.org
 
 #' Write `Xt` object to JSON file
@@ -43,7 +43,7 @@ write_Xtjson <- function(x, filepath, overwrite = FALSE) {
     simplifyVector = TRUE,
     simplifyMatrix = FALSE
   )
-} # /rtemisbio::write_Xtjson
+} # /rtemis.bio::write_Xtjson
 
 
 #' Read `Xt` object from JSON file
@@ -99,4 +99,4 @@ read_Xtjson <- function(filepath, verbosity = 0L) {
     print(xt)
   }
   xt
-} # /rtemisbio::read_Xtjson
+} # /rtemis.bio::read_Xtjson
