@@ -12,7 +12,6 @@
 #'
 #' @author EDG
 #' @export
-
 write_Xtjson <- function(x, filepath, overwrite = FALSE) {
   # Check types ----
   check_is_S7(x, Xt)
@@ -60,7 +59,6 @@ write_Xtjson <- function(x, filepath, overwrite = FALSE) {
 #'
 #' @author EDG
 #' @export
-
 read_Xtjson <- function(filepath, verbosity = 0L) {
   # Check types ----
   check_inherits(filepath, "character")
