@@ -11,6 +11,7 @@ rtemis.bio_version <- utils::packageVersion("rtemis.bio")
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
     paste0(
+      pkglogo(pkg = pkgname),
       ".:",
       pkgname,
       " ",
