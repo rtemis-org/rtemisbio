@@ -22,4 +22,4 @@ You can install `rtemis.bio` from `r-universe` or using `pak`, `remotes`, or `de
 
 ## Documentation
 
-[rtemis.bio.rtemis.org](https://rtemis.bio.rtemis.org/)
+[rtemisbio.rtemis.org](https://rtemisbio.rtemis.org/)
